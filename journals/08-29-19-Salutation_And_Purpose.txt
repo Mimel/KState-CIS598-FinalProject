@@ -1,0 +1,7 @@
+Hello -
+I am Matt Imel, and this and further documents are going to be journal entries for my final project in CIS 598 at K-State for Fall 2019. The purpose of these documents is to present reasoning and other information for design, implementation, and testing choices made throughout all stages of the final project, as well as provide personal input. There are three reasons I believe such a journal would be beneficial:
+1. It acts as a place outside of my code to explain the reasoning behind my actions with regards to the final project.
+2. In addition to just regularly updating my final project, these act as further evidence that all work I claim to create is truly my own. Having these entries show justification for what I've done to my final project would hopefully act as proof that I understand what I'm doing.
+3. It would help to recollect my thoughts; if I cannot adequately explain the purpose of a change to my final project in this journal, then should there be any reason for it to exist? These entries may not just explain why a component needs to exist, but why it should exist above all other options.
+I would like the tone of this journal to be mostly formal, but not overly so -- to be professional and considerate, but not robotic or minimalistic in writing; to write as if I were talking during a standard job interview. I write this not just for myself, but for an audience that wishes to know more about how the construction of this project progressed from beginning to end.
+All journals and opinions within are mine and mine alone.
