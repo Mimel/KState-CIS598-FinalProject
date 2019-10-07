@@ -1,0 +1,14 @@
+I decided to switch to a web application instead of a programming language for my project. My reasons for switching are this:
+
+1. Web design, in all its forms, are more relevant toward my favored career path, so showcasing a web project would look much better on my resume.
+
+2. With a programming language, there is much more research for me to do, and the completion times may vary wildly. This is not necessarily a bad thing, but for my capstone project, I would prefer a project that I have a better working knowledge of.
+
+3. I get to learn some new things along the way as well - these new things being more relevant toward what I'd like to do in the future. CakePHP is the framework, and the primary thing I would love to learn in the process of completing this project.
+
+This is quite a late journal entry, as I have completed my initial meeting about one week ago. However, I am more determined than ever to begin this project and see it to completion. From now on, I will post regular journal updates, and update the GitHub page often. Journal entries in the future will likely consist of two parts:
+
+1. What was added/changed/deleted,
+2. and why these decisions were made.
+
+This current push will include all presentation details, along with a semi-completed mockup that I intend to complete and implement in the future. 
