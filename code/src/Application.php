@@ -14,12 +14,17 @@
  */
 namespace App;
 
+use Authentication\AuthenticationService;
+use Authentication\AuthenticationServiceProviderInterface;
+use Authentication\Middleware\AuthenticationMiddleware;
 use Cake\Core\Configure;
 use Cake\Core\Exception\MissingPluginException;
 use Cake\Error\Middleware\ErrorHandlerMiddleware;
 use Cake\Http\BaseApplication;
 use Cake\Routing\Middleware\AssetMiddleware;
 use Cake\Routing\Middleware\RoutingMiddleware;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Application setup class.
@@ -27,7 +32,7 @@ use Cake\Routing\Middleware\RoutingMiddleware;
  * This defines the bootstrapping logic and middleware layers you
  * want to use in your application.
  */
-class Application extends BaseApplication
+class Application extends BaseApplication implements AuthenticationServiceProviderInterface
 {
     /**
      * {@inheritDoc}
@@ -36,6 +41,8 @@ class Application extends BaseApplication
     {
         // Call parent to load bootstrap from files.
         parent::bootstrap();
+
+        $this->addPlugin('Authentication');
 
         if (PHP_SAPI === 'cli') {
             $this->bootstrapCli();
@@ -50,6 +57,30 @@ class Application extends BaseApplication
         }
 
         // Load more plugins here
+    }
+
+    /**
+    * {@inheritDoc}
+    */
+    public function getAuthenticationService(ServerRequestInterface $request, ResponseInterface $response) {
+      $service = new AuthenticationService();
+
+      $fields = [
+        'fields' => [
+          'username' => 'username',
+          'password' => 'password'
+        ]
+      ];
+
+      $service->loadIdentifier('Authentication.Password', $fields);
+
+      $service->loadAuthenticator('Authentication.Session');
+      $service->loadAuthenticator('Authentication.Form', [
+        'fields' => $fields['fields'],
+        'loginUrl' => '/login/login'
+      ]);
+
+      return $service;
     }
 
     /**
@@ -76,7 +107,9 @@ class Application extends BaseApplication
             // creating the middleware instance specify the cache config name by
             // using it's second constructor argument:
             // `new RoutingMiddleware($this, '_cake_routes_')`
-            ->add(new RoutingMiddleware($this));
+            ->add(new RoutingMiddleware($this))
+
+            ->add(new AuthenticationMiddleware($this));
 
         return $middlewareQueue;
     }

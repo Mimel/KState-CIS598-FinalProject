@@ -47,7 +47,14 @@ $cakeDescription = 'CakePHP: the rapid development PHP framework';
       <link href="https://fonts.googleapis.com/css?family=Raleway:500i|Roboto:300,400,700|Roboto+Mono" rel="stylesheet">
   </head>
   <body>
-    <header></header>
+    <header>
+      <?= $this->Form->create('Login', ['action' => 'login']) ?>
+      <?= $this->Form->text('username') ?>
+      <?= $this->Form->control('password') ?>
+      <?= $this->Form->button('Login', ['type' => 'submit']) ?>
+      <?= $this->Form->end() ?>
+      <?= $this->Html->link('Logout', ['action' => 'logout']) ?>
+    </header>
     <div></div>
     <footer></footer>
   </body>

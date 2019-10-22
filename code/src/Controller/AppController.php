@@ -41,9 +41,15 @@ class AppController extends Controller
     {
         parent::initialize();
 
+        $this->loadComponent('Authentication.Authentication', [
+          'logoutRedirect' => '/login/index',
+          'requireIdentity' => false
+        ]);
+
         $this->loadComponent('RequestHandler', [
             'enableBeforeRedirect' => false,
         ]);
+
         $this->loadComponent('Flash');
 
         /*
