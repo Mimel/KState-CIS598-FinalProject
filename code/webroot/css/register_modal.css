@@ -1,0 +1,30 @@
+#register_modal {
+  display: none;
+  position: fixed;
+
+  height: 100%;
+  width: 100%;
+
+  background-color: rgba(50, 50, 50, 0.3);
+
+  margin: 0;
+  padding: 0;
+}
+
+#flex_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  height: 100%;
+  width: 100%;
+}
+
+#register_modal_window {
+  background-color: #DDDDDD;
+  
+  height: 50vh;
+  min-height: 50vh;
+  width: 50vw;
+  min-width: 250px;
+}

@@ -6,25 +6,25 @@ use Cake\Event\Event;
 use Cake\ORM\TableRegistry;
 
 class LoginController extends AppController {
-  public function login() {
-    $result = $this->Authentication->getResult();
+  public function register() {
 
-    //$usersTable = TableRegistry::getTableLocator()->get('Users');
-    //$newUser = $usersTable->newEntity();
-    //$newUser->username = 'admin';
-    //$newUser->email = 'whatev@whatev.com';
-    //$newUser->password = password_hash('pass', PASSWORD_DEFAULT);
-
-    //$usersTable->save($newUser);
-
-    if($result->isValid()) {
-      $this->log($this->Authentication->getIdentity());
-    } else {
-      $this->log($this->Authentication->getIdentity());
+    $usersTable = TableRegistry::getTableLocator()->get('Users');
+    $newUser = $usersTable->newEntity();
+    if($this->request->is('post')) {
+      $userInfo = $this->request->getData();
+      $newUser->username = $userInfo['username'];
+      $newUser->email = $userInfo['email'];
+      $newUser->password = password_hash($userInfo['password'], PASSWORD_DEFAULT);
+      $usersTable->save($newUser);
     }
 
-    $this->log($result);
-    //return $this->here;
+    return $this->redirect($this->referer());
+  }
+
+  public function login() {
+    // TODO Sanitize.
+    $result = $this->Authentication->getResult();
+    return $this->redirect($this->referer());
   }
 
   public function logout() {

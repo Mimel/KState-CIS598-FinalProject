@@ -22,6 +22,9 @@ use Cake\Http\Exception\NotFoundException;
 
 $this->layout = false;
 
+// Initialize Cells.
+$regCell = $this->cell('Register');
+
 if (!Configure::read('debug')) :
     throw new NotFoundException(
         'Please replace src/Template/Pages/home.ctp with your own version or re-enable debug mode.'
@@ -40,22 +43,13 @@ $cakeDescription = 'CakePHP: the rapid development PHP framework';
           <?= $cakeDescription ?>
       </title>
 
-      <?= $this->Html->meta('icon') ?>
-      <?= $this->Html->css('base.css') ?>
-      <?= $this->Html->css('style.css') ?>
-      <?= $this->Html->css('home.css') ?>
-      <link href="https://fonts.googleapis.com/css?family=Raleway:500i|Roboto:300,400,700|Roboto+Mono" rel="stylesheet">
+      <?= $this->Html->css('base') ?>
+      <?= $this->Html->css('header') ?>
+      <?= $this->Html->css('register_modal') ?>
+      <?php echo $this->Html->script('jquery-3.4.1.min') ?>
   </head>
   <body>
-    <header>
-      <?= $this->Form->create('Login', ['action' => 'login']) ?>
-      <?= $this->Form->text('username') ?>
-      <?= $this->Form->control('password') ?>
-      <?= $this->Form->button('Login', ['type' => 'submit']) ?>
-      <?= $this->Form->end() ?>
-      <?= $this->Html->link('Logout', ['action' => 'logout']) ?>
-    </header>
-    <div></div>
-    <footer></footer>
+    <?= $regCell ?>
+    <?= $this->element('userinfoheader') ?>
   </body>
 </html>

@@ -1,0 +1,2 @@
+So far, I have functionally completed the login system for my website. Users are now able to register a basic account, log in, and log out.
+There are still a few things I'd like to do, such as input sanitization and cleaner UI design. There exists a basic UI as of the moment, but it's nowhere near presentable for a wider audience.
