@@ -11,7 +11,7 @@
   padding: 0;
 }
 
-#flex_container {
+#register_flex_container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -22,7 +22,7 @@
 
 #register_modal_window {
   background-color: #DDDDDD;
-  
+
   height: 50vh;
   min-height: 50vh;
   width: 50vw;

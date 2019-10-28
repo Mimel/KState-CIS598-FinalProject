@@ -31,9 +31,6 @@ class LoginController extends AppController {
     return $this->redirect($this->Authentication->logout());
   }
 
-  public function beforeFilter(Event $event) {
-    $this->Authentication->allowUnauthenticated(['view']);
-  }
 
   public function index() {
 

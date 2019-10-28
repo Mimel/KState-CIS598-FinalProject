@@ -46,6 +46,8 @@ class AppController extends Controller
           'requireIdentity' => false
         ]);
 
+        $this->loadComponent('Authorization.Authorization');
+
         $this->loadComponent('RequestHandler', [
             'enableBeforeRedirect' => false,
         ]);

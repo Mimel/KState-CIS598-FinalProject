@@ -16,7 +16,11 @@ namespace App;
 
 use Authentication\AuthenticationService;
 use Authentication\AuthenticationServiceProviderInterface;
+use Authorization\AuthorizationService;
+use Authorization\AuthorizationServiceProviderInterface;
 use Authentication\Middleware\AuthenticationMiddleware;
+use Authorization\Middleware\AuthorizationMiddleware;
+use Authorization\Policy\OrmResolver;
 use Cake\Core\Configure;
 use Cake\Core\Exception\MissingPluginException;
 use Cake\Error\Middleware\ErrorHandlerMiddleware;
@@ -25,14 +29,13 @@ use Cake\Routing\Middleware\AssetMiddleware;
 use Cake\Routing\Middleware\RoutingMiddleware;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-
 /**
  * Application setup class.
  *
  * This defines the bootstrapping logic and middleware layers you
  * want to use in your application.
  */
-class Application extends BaseApplication implements AuthenticationServiceProviderInterface
+class Application extends BaseApplication implements AuthenticationServiceProviderInterface, AuthorizationServiceProviderInterface
 {
     /**
      * {@inheritDoc}
@@ -43,6 +46,7 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
         parent::bootstrap();
 
         $this->addPlugin('Authentication');
+        $this->addPlugin('Authorization');
 
         if (PHP_SAPI === 'cli') {
             $this->bootstrapCli();
@@ -83,6 +87,11 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
       return $service;
     }
 
+    public function getAuthorizationService(ServerRequestInterface $request, ResponseInterface $response) {
+      $resolver = new OrmResolver();
+      return new AuthorizationService($resolver);
+    }
+
     /**
      * Setup the middleware queue your application will use.
      *
@@ -109,7 +118,8 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
             // `new RoutingMiddleware($this, '_cake_routes_')`
             ->add(new RoutingMiddleware($this))
 
-            ->add(new AuthenticationMiddleware($this));
+            ->add(new AuthenticationMiddleware($this))
+            ->add(new AuthorizationMiddleware($this));
 
         return $middlewareQueue;
     }

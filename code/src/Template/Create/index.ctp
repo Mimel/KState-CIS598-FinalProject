@@ -10,16 +10,13 @@ use Cake\Http\Exception\NotFoundException;
 //?
 $this->layout = false;
 
-// Initialize Cells.
-$regCell = $this->cell('Register');
-
 if (!Configure::read('debug')) :
     throw new NotFoundException(
         'Please replace src/Template/Pages/home.ctp with your own version or re-enable debug mode.'
     );
 endif;
 
-$cakeDescription = 'CakePHP: the rapid development PHP framework';
+$title = 'Create a Recipe | GastroHub';
 ?>
 
 <!DOCTYPE html>
@@ -28,16 +25,18 @@ $cakeDescription = 'CakePHP: the rapid development PHP framework';
       <?= $this->Html->charset() ?>
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>
-          <?= $cakeDescription ?>
+          <?= $title ?>
       </title>
 
       <?= $this->Html->css('base') ?>
       <?= $this->Html->css('header') ?>
-      <?= $this->Html->css('register_modal') ?>
-      <?php echo $this->Html->script('jquery-3.4.1.min') ?>
   </head>
   <body>
-    <?= $regCell ?>
-    <?= $this->element('userinfoheader') ?>
+    Create Page.
+    <?= $this->Form->create('Create Recipe', ['controller' => 'Create', 'action' => 'addRecipe', 'id' => 'create_recipe_form']) ?>
+    <?= $this->Form->text('Title') ?>
+    <?= $this->Form->text('Description') ?>
+    <?= $this->Form->button('Submit Recipe', ['type' => 'submit']) ?>
+    <?= $this->Form->end() ?>
   </body>
 </html>
