@@ -33,10 +33,18 @@ $title = 'Create a Recipe | GastroHub';
   </head>
   <body>
     Create Page.
-    <?= $this->Form->create('Create Recipe', ['controller' => 'Create', 'action' => 'addRecipe', 'id' => 'create_recipe_form']) ?>
-    <?= $this->Form->text('Title') ?>
-    <?= $this->Form->text('Description') ?>
+    <?= $this->Form->create('Create Recipe', ['url' => ['controller' => 'Create', 'action' => 'addRecipe'], 'id' => 'create_recipe_form']) ?>
+    <?= $this->Form->text('title') ?>
+    <?= $this->Form->text('description') ?>
+    <?= $this->Form->text('Ingredient Amount 1', ['id' => 'ingamt_1']) ?>
+    <?= $this->Form->text('Ingredient Name 1', ['id' => 'ingname_1']) ?>
+    <?= $this->Form->button('Add Another Ingredient', ['type' => 'button', 'id' => 'addIngredientButton']) ?>
+    <?= $this->Form->text('Step 1', ['id' => 'step_1']) ?>
+    <?= $this->Form->button('Add Another Step', ['type' => 'button', 'id' => 'addStepButton']) ?>
     <?= $this->Form->button('Submit Recipe', ['type' => 'submit']) ?>
     <?= $this->Form->end() ?>
+
+    <?php echo $this->Html->script('jquery-3.4.1.min') ?>
+    <?php echo $this->Html->script('create_form') ?>
   </body>
 </html>

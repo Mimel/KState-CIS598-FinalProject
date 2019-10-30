@@ -46,21 +46,15 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
         parent::bootstrap();
 
         $this->addPlugin('Authentication');
-        $this->addPlugin('Authorization');
+        //$this->addPlugin('Authorization');
 
         if (PHP_SAPI === 'cli') {
             $this->bootstrapCli();
         }
 
-        /*
-         * Only try to load DebugKit in development mode
-         * Debug Kit should not be installed on a production system
-         */
         if (Configure::read('debug')) {
             $this->addPlugin(\DebugKit\Plugin::class);
         }
-
-        // Load more plugins here
     }
 
     /**
@@ -118,8 +112,8 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
             // `new RoutingMiddleware($this, '_cake_routes_')`
             ->add(new RoutingMiddleware($this))
 
-            ->add(new AuthenticationMiddleware($this))
-            ->add(new AuthorizationMiddleware($this));
+            ->add(new AuthenticationMiddleware($this));
+            //->add(new AuthorizationMiddleware($this));
 
         return $middlewareQueue;
     }

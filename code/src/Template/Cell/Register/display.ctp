@@ -1,7 +1,7 @@
 <div id="register_modal">
   <div id="register_flex_container">
     <div id="register_modal_window">
-      <?= $this->Form->create('Login', ['controller' => 'Login', 'action' => 'register', 'id' => 'header_register_form']) ?>
+      <?= $this->Form->create('Login', ['url' => ['controller' => 'Login', 'action' => 'register'], 'id' => 'header_register_form']) ?>
       <?= $this->Form->text('username') ?>
       <?= $this->Form->email('email') ?>
       <?= $this->Form->password('password') ?>
