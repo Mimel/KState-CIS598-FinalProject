@@ -32,7 +32,7 @@ class CreateController extends AppController {
 
         $data = [
           'title'       => $postInfo['title'],
-          'slug'        => 'hello',
+          'slug'        => 'hello', //TODO Create auto-slug.
           'author'      => $this->getRequest()->getSession()->read('Auth.username'),
           'description' => $postInfo['description'],
           'recipe'      => [
