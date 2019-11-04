@@ -1,0 +1,40 @@
+#create_recipe_form_encapsulator {
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+}
+
+#create_recipe_form_encapsulator > * {
+  margin-bottom: 5px;
+}
+
+#create_recipe_form input[type='text'] {
+  width: 375px;
+  max-width: 375px;
+
+  border: 10px;
+  border-style: solid;
+  border-color: #FFFFFF;
+  border-radius: 30px;
+}
+
+#create_recipe_form textarea {
+  width: 375px;
+  max-width: 375px;
+
+  border: 10px;
+  border-style: solid;
+  border-color: #FFFFFF;
+  border-radius: 200px;
+
+  resize: none;
+}
+
+.create_recipe_input_wrapper {
+  width: 400px;
+
+  border: 2px;
+  border-style: solid;
+  border-color: #333333;
+  border-radius: 30px;
+}

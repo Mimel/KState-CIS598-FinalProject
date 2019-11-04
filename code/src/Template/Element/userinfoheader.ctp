@@ -2,8 +2,8 @@
   <?php if(!$this->getRequest()->getSession()->check('Auth')): ?>
     <div id="header_salutation"><a class="register_trigger">Register</a> or Login:</div>
     <?= $this->Form->create('Login', ['url' => ['controller' => 'Login', 'action' => 'login'], 'id' => 'header_login_form']) ?>
-    <?= $this->Form->text('username') ?>
-    <?= $this->Form->password('password') ?>
+    <?= $this->Form->text('username', ['placeholder' => 'Username']) ?>
+    <?= $this->Form->password('password', ['placeholder' => 'Password']) ?>
     <?= $this->Form->button('Login', ['type' => 'submit']) ?>
     <?= $this->Form->end() ?>
   <?php else: ?>

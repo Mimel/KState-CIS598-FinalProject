@@ -11,6 +11,12 @@
   padding: 0;
 }
 
+#register_modal h2 {
+  margin: 0;
+  padding: 0;
+}
+
+
 #register_flex_container {
   display: flex;
   justify-content: center;
@@ -23,8 +29,32 @@
 #register_modal_window {
   background-color: #DDDDDD;
 
-  height: 50vh;
-  min-height: 50vh;
+  max-height: 50vh;
   width: 50vw;
   min-width: 250px;
+
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+#register_form {
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+}
+
+.register_singleline_wrapper {
+  border: 10px;
+  border-style: solid;
+  border-color: #FFFFFF;
+  border-radius: 20px;
+  margin-top: 3px;
+  margin-bottom: 3px;
+}
+
+.register_input {
+  border: 0;
+  box-shadow: none;
 }
