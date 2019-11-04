@@ -20,7 +20,7 @@ $regCell = $this->cell('Register');
       <?= $this->Html->charset() ?>
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>
-          <?= $cakeDescription ?>
+          Test
       </title>
 
       <?= $this->Html->css('base') ?>
@@ -28,6 +28,19 @@ $regCell = $this->cell('Register');
       <?= $this->Html->css('register_modal') ?>
   </head>
   <body>
+    <?= $this->element('userinfoheader') ?>
     <?= h($recipe_info) ?>
+    <div><a class='comment_trigger'>Submit a Comment</a></div>
+    <div id='comment_container'>
+      <?= $this->Form->create('Comment Form', ['url' => ['controller' => 'Recipes', 'action' => 'comment', $slug], 'id' => 'comment_submit_form']) ?>
+      <?= $this->Form->textarea('comment', ['resize' => 'none']) ?>
+      <?= $this->Form->button('Submit Comment', ['type' => 'submit']) ?>
+      <?= $this->Form->end() ?>
+    </div>
+    <section id='comment_section'>
+      <?php foreach ($comments as $comment): ?>
+        <div><?= $comment ?></div>
+      <?php endforeach; ?>
+    </section>
   </body>
 </html>

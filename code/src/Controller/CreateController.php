@@ -17,7 +17,7 @@ class CreateController extends AppController {
         $currentIngredient = 1;
         $ingredients = [];
         while(array_key_exists('Ingredient_Amount_' . $currentIngredient, $postInfo) and array_key_exists('Ingredient_Name_' . $currentIngredient, $postInfo)) {
-          $ingredients[0] = ['amount' => $postInfo['Ingredient_Amount_' . $currentIngredient],
+          $ingredients[] = ['amount' => $postInfo['Ingredient_Amount_' . $currentIngredient],
                                     'name' => $postInfo['Ingredient_Name_' . $currentIngredient]];
           $currentIngredient += 1;
         }
