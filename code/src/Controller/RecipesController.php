@@ -14,8 +14,15 @@ class RecipesController extends AppController {
       ->find()
       ->leftJoinWith('Recipes')
       ->leftJoinWith('Recipes.Ingredients')
+      ->select(['title', 'author', 'description', 'ing_amts' => 'Ingredients.amount', 'ing_names' => 'Ingredients.name'])
+      ->where(['slug' => $slug])
+      ->toList();
+    $steps_query = TableRegistry::getTableLocator()
+      ->get('Posts')
+      ->find()
+      ->leftJoinWith('Recipes')
       ->leftJoinWith('Recipes.Steps')
-      ->select(['title', 'author', 'description', 'ing_amts' => 'Ingredients.amount', 'ing_names' => 'Ingredients.name', 'step' => 'Steps.step'])
+      ->select(['steps' => 'Steps.step'])
       ->where(['slug' => $slug])
       ->toList();
     $comments_query = TableRegistry::getTableLocator()
@@ -24,7 +31,8 @@ class RecipesController extends AppController {
       ->where(['post_id' => $slug])
       ->toList();
     $this->set('slug', $slug);
-    $this->set('recipe_info', implode("|", $recipe_query));
+    $this->set('recipe_info', $recipe_query);
+    $this->set('recipe_steps', $steps_query);
     $this->set('comments', $comments_query);
   }
 
