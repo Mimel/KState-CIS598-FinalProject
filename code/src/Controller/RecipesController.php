@@ -7,7 +7,7 @@ use Cake\ORM\TableRegistry;
 
 class RecipesController extends AppController {
 
-  public function index($slug) {
+  public function index($id, $slug) {
     //TODO sanitize slug parameter.
     $recipe_query = TableRegistry::getTableLocator()
       ->get('Posts')
@@ -15,7 +15,7 @@ class RecipesController extends AppController {
       ->leftJoinWith('Recipes')
       ->leftJoinWith('Recipes.Ingredients')
       ->select(['title', 'author', 'description', 'ing_amts' => 'Ingredients.amount', 'ing_names' => 'Ingredients.name'])
-      ->where(['slug' => $slug])
+      ->where(['Posts.id' => $id])
       ->toList();
     $steps_query = TableRegistry::getTableLocator()
       ->get('Posts')
@@ -23,27 +23,36 @@ class RecipesController extends AppController {
       ->leftJoinWith('Recipes')
       ->leftJoinWith('Recipes.Steps')
       ->select(['steps' => 'Steps.step'])
-      ->where(['slug' => $slug])
+      ->where(['Posts.id' => $id])
       ->toList();
     $comments_query = TableRegistry::getTableLocator()
       ->get('Comments')
       ->find()
-      ->where(['post_id' => $slug])
+      ->where(['post_id' => $id])
       ->toList();
+    $this->set('id', $id);
     $this->set('slug', $slug);
     $this->set('recipe_info', $recipe_query);
     $this->set('recipe_steps', $steps_query);
     $this->set('comments', $comments_query);
   }
 
-  public function comment($slug) {
+  public function comment($post_id, $parent_comment_id = NULL) {
     $commentsTable = TableRegistry::getTableLocator()->get('Comments');
+    $parentCommenter = TableRegistry::getTableLocator()
+      ->get('Comments')
+      ->find()
+      ->select(['commenter'])
+      ->where(['id' => $parent_comment_id])
+      ->first();
+    $this->log($parentCommenter);
     $newComment = $commentsTable->newEntity();
     if($this->request->is('post')) {
       $commentInfo = $this->request->getData();
-      //$newComment->parent_id
       $newComment->commenter = $this->getRequest()->getSession()->read('Auth.username');
-      $newComment->post_id = $slug;
+      $newComment->parent_commenter = $parentCommenter->commenter;
+      $newComment->post_id = $post_id;
+      $newComment->parent_id = $parent_comment_id;
       $newComment->body = $commentInfo['comment'];
       $commentsTable->save($newComment);
     }

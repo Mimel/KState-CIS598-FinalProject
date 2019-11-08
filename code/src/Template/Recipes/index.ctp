@@ -28,6 +28,7 @@ $regCell = $this->cell('Register');
       <?= $this->Html->css('register_modal') ?>
       <?= $this->Html->css('recipe_page') ?>
       <?php echo $this->Html->script('jquery-3.4.1.min') ?>
+      <?php echo $this->Html->script('open_comment') ?>
   </head>
   <body>
     <?= $this->element('userinfoheader') ?>
@@ -56,32 +57,50 @@ $regCell = $this->cell('Register');
         <div id='steps'>
           Steps
           <br />
-          <?php for ($i = 0; $i < count($recipe_info); $i++): ?>
+          <?php for ($i = 0; $i < count($recipe_steps); $i++): ?>
               <?= h($recipe_steps[$i]->steps) ?>
               <br />
           <?php endfor; ?>
         </div>
       </div>
+      <a id='post_comment_trigger'><div>Submit a Comment</div></a>
+      <div id='post_comment_container'>
+        <?= $this->Form->create('Comment Form', ['url' => ['controller' => 'Recipes', 'action' => 'comment', $id], 'id' => 'comment_submit_form']) ?>
+        <?= $this->Form->textarea('comment', ['resize' => 'none']) ?>
+        <?= $this->Form->button('Submit Comment', ['type' => 'submit']) ?>
+        <?= $this->Form->end() ?>
+      </div>
     </section>
-
-    <div><a class='comment_trigger'>Submit a Comment</a></div>
-    <div id='comment_container'>
-      <?= $this->Form->create('Comment Form', ['url' => ['controller' => 'Recipes', 'action' => 'comment', $slug], 'id' => 'comment_submit_form']) ?>
-      <?= $this->Form->textarea('comment', ['resize' => 'none']) ?>
-      <?= $this->Form->button('Submit Comment', ['type' => 'submit']) ?>
-      <?= $this->Form->end() ?>
-    </div>
     <section id='comment_section'>
       <?php foreach ($comments as $comment): ?>
-        <div id='comment_block'>
-          <div id='comment_header'>
-            <?= $comment->commenter ?>
+        <div class='comment_block'>
+          <div class='comment_header'>
+            <div class='comment_avatar'></div> <!-- TODO Change to img once image uploading is implemented. -->
+            <?php if($comment->parent_id == NULL): ?>
+            <?= $comment->commenter?>
+            <?php else: ?>
+            <?= $comment->commenter ?>, replying to <?= $comment->parent_commenter ?>
+            <?php endif; ?>
           </div>
-          <div id='comment_body'>
-            <?= $comment->body ?>
+          <div class='comment_lower'>
+            <div class='comment_vert_bar'></div>
+            <div class='comment_bodyfooter_container'>
+              <div class='comment_body'>
+                <?= $comment->body ?>
+              </div>
+              <div class='comment_footer'>
+                <?php
+                  $commentButton = "<a class='comment_trigger' id=" . $comment->id . "><img src='/img/icons/comments_icon.png'/></a>";
+                  echo $commentButton;
+                ?>
+              </div>
+            </div>
           </div>
-          <div id='comment_footer'>
-            <a class='comment_trigger'>Reply</a>
+          <div class='comment_container'>
+            <?= $this->Form->create('Comment Form', ['url' => ['controller' => 'Recipes', 'action' => 'comment', $id, $comment->id], 'class' => 'comment_submit_form', 'id' => 'comment_box_' . $comment->id]) ?>
+            <?= $this->Form->textarea('comment', ['resize' => 'none']) ?>
+            <?= $this->Form->button('Submit Comment', ['type' => 'submit']) ?>
+            <?= $this->Form->end() ?>
           </div>
         </div>
       <?php endforeach; ?>

@@ -8,6 +8,8 @@ class CreateController extends AppController {
 
   public function addRecipe() {
       //$this->Authorization->skipAuthorization();
+      $slug;
+      $id;
 
       if($this->request->is('post')) {
         $postsTable = TableRegistry::getTableLocator()->get('Posts');
@@ -30,9 +32,11 @@ class CreateController extends AppController {
           $currentStep += 1;
         }
 
+        $slug = preg_replace('/[^a-z0-9\-]+/', '', preg_replace('/\s/', '-', strtolower($postInfo['title'])));
+
         $data = [
           'title'       => $postInfo['title'],
-          'slug'        => 'recipe', //TODO Create auto-slug.
+          'slug'        => $slug,
           'author'      => $this->getRequest()->getSession()->read('Auth.username'),
           'description' => $postInfo['description'],
           'recipe'      => [
@@ -44,10 +48,12 @@ class CreateController extends AppController {
         $newPost = $postsTable->newEntity($data, [
           'associated' => ['Recipes', 'Recipes.Ingredients', 'Recipes.Steps']
         ]);
-        $postsTable->save($newPost);
+        if($postsTable->save($newPost)) {
+          $id = $newPost->id;
+        }
       }
 
-      return $this->redirect(['controller' => 'Login', 'action' => 'index']);
+      return $this->redirect(['controller' => 'Recipes', 'action' => 'index', $id, $slug]);
   }
 
 
