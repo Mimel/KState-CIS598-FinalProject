@@ -71,6 +71,8 @@ Router::scope('/', function (RouteBuilder $routes) {
 
     $routes->connect('/recipes/comment/*', ['controller' => 'Recipes', 'action' => 'comment']);
 
+    $routes->connect('/recipes/postvariant/*', ['controller' => 'Recipes', 'action' => 'postvariant']);
+
     $routes->connect('/recipes/*', ['controller' => 'Recipes', 'action' => 'index']);
 
     /**

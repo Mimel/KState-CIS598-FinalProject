@@ -91,6 +91,8 @@
   margin-left: 18px;
   margin-right: 28px;
 
+  flex-shrink: 0;
+
   border-bottom-left-radius: 2px;
   border-bottom-right-radius: 2px;
 
@@ -101,10 +103,37 @@
   margin-bottom: 10px;
 }
 
+/* ----- ADD COMMENT ----- */
+
 #post_comment_container {
   display: none;
 }
 
 .comment_container {
   display: none;
+
+  padding-left: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.comment_submit_form {
+  display: flex;
+  align-items: center;
+}
+
+.comment_add_comment_textarea {
+  margin: 0;
+  padding: 0;
+  resize: none;
+
+  flex-grow: 1;
+}
+
+.comment_submission {
+  padding-left: 50px;
+  padding-right: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

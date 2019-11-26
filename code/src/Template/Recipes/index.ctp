@@ -98,8 +98,18 @@ $regCell = $this->cell('Register');
           </div>
           <div class='comment_container'>
             <?= $this->Form->create('Comment Form', ['url' => ['controller' => 'Recipes', 'action' => 'comment', $id, $comment->id], 'class' => 'comment_submit_form', 'id' => 'comment_box_' . $comment->id]) ?>
-            <?= $this->Form->textarea('comment', ['resize' => 'none']) ?>
-            <?= $this->Form->button('Submit Comment', ['type' => 'submit']) ?>
+            <?= $this->Form->textarea('comment', ['class' => 'comment_add_comment_textarea']) ?>
+            <div class='comment_submission'>
+              <?= $this->Form->button('Submit Comment', ['type' => 'submit']) ?>
+              <div>OR</div>
+              <?php echo
+                $this->Html->link(
+                  $this->Form->button('Revise ' . $comment->commenter . '\'s Recipe' , ['type' => 'button']),
+                  'recipes/postvariant/' . $id . '/' . $slug . '/' . $comment->id,
+                  ['escape' => false]
+                );
+              ?>
+            </div>
             <?= $this->Form->end() ?>
           </div>
         </div>
