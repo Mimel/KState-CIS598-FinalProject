@@ -32,24 +32,27 @@ $regCell = $this->cell('Register');
   </head>
   <body>
     <?= $this->element('userinfoheader') ?>
-    <?= h($recipe_info[0]) ?>
-    <?= h($recipe_steps[0]) ?>
 
-    <?= $this->Form->create('Create Recipe', ['url' => ['controller' => 'Create', 'action' => 'addRecipe'], 'id' => 'create_recipe_form']) ?>
+    <?= $this->Form->create('Create Variant', ['url' => ['controller' => 'Recipes', 'action' => 'addvariant', $post_id, $parent_commenter_id, $parent_recipe_id], 'id' => 'create_recipe_form']) ?>
     <div id='create_recipe_form_encapsulator'>
       <h1 id='create_recipe_instruction'>Edit a Recipe</h1>
-      <div class='create_recipe_input_wrapper'>
-        <?= $this->Form->text('Ingredient Amount 1', ['id' => 'ingamt_1', 'placeholder' => 'Ingredient Amount (e.g. "1 cup")']) ?>
-      </div>
-      <div class='create_recipe_input_wrapper'>
-        <?= $this->Form->text('Ingredient Name 1', ['id' => 'ingname_1', 'placeholder' => 'Ingredient Name (e.g. "Flour")']) ?>
-      </div>
+      <?php for ($i = 1; $i < count($recipe_info) + 1; $i++): ?>
+        <div class='create_recipe_input_wrapper'>
+          <?= $this->Form->text('Ingredient Amount ' . $i, ['id' => 'ingamt_' . $i, 'value' => $recipe_info[$i - 1]->amount]) ?>
+        </div>
+        <div class='create_recipe_input_wrapper'>
+          <?= $this->Form->text('Ingredient Name ' . $i, ['id' => 'ingname_' . $i, 'value' => $recipe_info[$i - 1]->name]) ?>
+        </div>
+      <?php endfor; ?>
       <?= $this->Form->button('Add Another Ingredient', ['type' => 'button', 'id' => 'addIngredientButton']) ?>
-      <div class='create_recipe_input_wrapper'>
-        <?= $this->Form->text('Step 1', ['id' => 'step_1', 'placeholder' => 'Recipe Step']) ?>
-      </div>
+
+      <?php for ($i = 1; $i < count($recipe_steps) + 1; $i++): ?>
+        <div class='create_recipe_input_wrapper'>
+          <?= $this->Form->text('Step ' . $i, ['id' => 'step_' . $i, 'value' => $recipe_steps[$i - 1]->step]) ?>
+        </div>
+      <?php endfor; ?>
       <?= $this->Form->button('Add Another Step', ['type' => 'button', 'id' => 'addStepButton']) ?>
-      <?= $this->Form->button('Submit Recipe', ['type' => 'submit']) ?>
+      <?= $this->Form->button('Submit Variant', ['type' => 'submit']) ?>
     </div>
     <?= $this->Form->end() ?>
 

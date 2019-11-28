@@ -70,8 +70,6 @@ class RecipesController extends AppController {
       ->where(['vehicle_id' => $parent_comment_id, 'vehicle_type' => 'comment'])
       ->first();
 
-    $this->log($commented_recipe);
-
     if(!$commented_recipe) {
       $commented_recipe = TableRegistry::getTableLocator()
         ->get('Recipes')
@@ -81,24 +79,78 @@ class RecipesController extends AppController {
         ->first();
     }
 
-    $this->log($commented_recipe);
-
     if($commented_recipe) {
-      $this->log('yeah gurllllll');
       $recipe_query = TableRegistry::getTableLocator()
         ->get('Ingredients')
         ->find()
         ->select(['amount', 'name'])
-        ->where(['id' => $commented_recipe->id])
+        ->where(['recipe_id' => $commented_recipe->id])
         ->toList();
+      $this->log(implode(" ", $recipe_query));
       $steps_query = TableRegistry::getTableLocator()
         ->get('Steps')
         ->find()
         ->select(['step'])
-        ->where(['id' => $commented_recipe->id])
+        ->where(['recipe_id' => $commented_recipe->id])
         ->toList();
+      $this->set('post_id', $post_id);
+      $this->set('parent_commenter_id', $parent_comment_id);
+      $this->set('parent_recipe_id', $commented_recipe->id);
       $this->set('recipe_info', $recipe_query);
       $this->set('recipe_steps', $steps_query);
+    }
+  }
+
+  // TODO edit to function
+  public function addvariant($post_id, $parent_comment_id, $parent_recipe_id) {
+    $slug;
+    $id;
+
+    if($this->request->is('post')) {
+      $recipeTable = TableRegistry::getTableLocator()->get('Recipes');
+      $recipeInfo = $this->request->getData();
+
+      // Construct Ingredients instances.
+      $currentIngredient = 1;
+      $ingredients = [];
+      while(array_key_exists('Ingredient_Amount_' . $currentIngredient, $recipeInfo) and array_key_exists('Ingredient_Name_' . $currentIngredient, $recipeInfo)) {
+        $ingredients[] = ['amount' => $recipeInfo['Ingredient_Amount_' . $currentIngredient],
+                                  'name' => $recipeInfo['Ingredient_Name_' . $currentIngredient]];
+        $currentIngredient += 1;
+      }
+
+      // Construct Steps instances.
+      $currentStep = 1;
+      $steps = [];
+      while(array_key_exists('Step_' . $currentStep, $recipeInfo)) {
+        $steps[] = ['step' => $recipeInfo['Step_' . $currentStep]];
+        $currentStep += 1;
+      }
+
+      $this->log($ingredients);
+
+      $data = [
+        'vehicle_type' => 'comment',
+        'ingredients' => $ingredients,
+        'steps'       => $steps
+      ];
+
+      $newRecipe = $recipeTable->newEntity($data, [
+        'associated' => ['Ingredients', 'Steps']
+      ]);
+
+      if($recipeTable->save($newRecipe)) {
+        $id = $newRecipe->id;
+        $postsTable = TableRegistry::getTableLocator()->get('Posts');
+        $slug = $postsTable
+          ->find()
+          ->select(['slug'])
+          ->where(['id' => $post_id])
+          ->first();
+        return $this->redirect(['controller' => 'Recipes', 'action' => 'index', $post_id, $slug->slug]);
+      }
+
+
     }
   }
 }
