@@ -4,6 +4,8 @@ DROP TABLE IF EXISTS ingredients;
 DROP TABLE IF EXISTS steps;
 DROP TABLE IF EXISTS posts;
 DROP TABLE IF EXISTS comments;
+DROP TABLE IF EXISTS recipe_tag_junction;
+DROP TABLE IF EXISTS tags;
 
 CREATE TABLE users (
   username  VARCHAR(20) PRIMARY KEY,
@@ -76,3 +78,44 @@ CREATE TABLE comments (
     FOREIGN KEY (post_id)
     REFERENCES posts(id)
 );
+
+CREATE TABLE tags (
+  id        INT AUTO_INCREMENT PRIMARY KEY,
+  name      VARCHAR(20) NOT NULL,
+  genre     ENUM('Meal', 'Cuisine', 'Ethics', 'Allergies', 'Other') NOT NULL,
+  hex_color VARCHAR(6),
+  icon_loc  VARCHAR(255)
+);
+
+CREATE TABLE recipe_tag_junction (
+  tag_id    INT,
+  recipe_id INT,
+
+  CONSTRAINT fk_tag
+    FOREIGN KEY (tag_id)
+    REFERENCES tags(id),
+  CONSTRAINT fk_recipe
+    FOREIGN KEY (recipe_id)
+    REFERENCES recipes(id)
+);
+
+INSERT INTO tags
+  (name, genre)
+VALUES
+  ('Breakfast', 'Meal'),
+  ('Lunch', 'Meal'),
+  ('Dinner', 'Meal'),
+  ('Dessert', 'Meal'),
+  ('Snack', 'Meal'),
+  ('American', 'Cuisine'),
+  ('Japanese', 'Cuisine'),
+  ('Italian', 'Cuisine'),
+  ('Mediterranean', 'Cuisine'),
+  ('African', 'Cuisine'),
+  ('Brazilian', 'Cuisine'),
+  ('Vegetarian', 'Ethics'),
+  ('Vegan', 'Ethics'),
+  ('Gluten-Free', 'Allergies'),
+  ('Nut-Free', 'Allergies'),
+  ('Low Price', 'Other')
+;

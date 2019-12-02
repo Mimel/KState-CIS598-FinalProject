@@ -19,7 +19,6 @@ if (!Configure::read('debug')) :
     );
 endif;
 
-$cakeDescription = 'CakePHP: the rapid development PHP framework';
 ?>
 
 <!DOCTYPE html>
@@ -27,17 +26,30 @@ $cakeDescription = 'CakePHP: the rapid development PHP framework';
   <head>
       <?= $this->Html->charset() ?>
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>
-          <?= $cakeDescription ?>
-      </title>
+      <title>Login | GastroHub</title>
 
       <?= $this->Html->css('base') ?>
       <?= $this->Html->css('header') ?>
+      <?= $this->Html->css('login') ?>
+      <?= $this->Html->css('zero') ?>
       <?= $this->Html->css('register_modal') ?>
       <?php echo $this->Html->script('jquery-3.4.1.min') ?>
   </head>
   <body>
     <?= $regCell ?>
     <?= $this->element('userinfoheader') ?>
+    <div id='l_form_wrapper'>
+      <?= $this->Form->create('Login', ['url' => ['controller' => 'Login', 'action' => 'login'], 'id' => 'l_login_form']) ?>
+      <h1 class='assistant_text'>Sign in</h1>
+      <div class='login_field_wrapper'>
+        <?= $this->Form->text('username', ['placeholder' => 'Username', 'class' => 'login_field']) ?>
+      </div>
+      <div class='login_field_wrapper'>
+        <?= $this->Form->password('password', ['placeholder' => 'Password', 'class' => 'login_field']) ?>
+      </div>
+      <?= $this->Form->button('Login', ['type' => 'submit', 'id' => 'login_button']) ?>
+      <?= $this->Form->end() ?>
+      <h3 class='assistant_text'>Don't have an account? <a class='register_trigger'>Create one for free!<a></h3>
+    </div>
   </body>
 </html>

@@ -54,6 +54,7 @@ endif;
           <?= $this->Form->text('Step 1', ['id' => 'step_1', 'placeholder' => 'Recipe Step']) ?>
         </div>
         <?= $this->Form->button('Add Another Step', ['type' => 'button', 'id' => 'addStepButton']) ?>
+        <div>Add Tags</div>
         <?= $this->Form->button('Submit Recipe', ['type' => 'submit']) ?>
       </div>
       <?= $this->Form->end() ?>

@@ -66,13 +66,13 @@ endif;
       <nav class='med_opacity_white'>
         <ul id='nav_sitemap'>
           <?= $this->Html->link('<li>Home</li>',
-          '/pages/home',
+          '/',
           ['escape' => false]);
           ?>
           <li>Browse</li>
           <li>Create a Recipe</li>
           <?= $this->Html->link('<li>About Us</li>',
-          '/pages/aboutus',
+          '/aboutus',
           ['escape' => false]);
           ?>
         </ul>

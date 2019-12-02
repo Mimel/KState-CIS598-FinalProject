@@ -1,0 +1,42 @@
+#l_form_wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#l_login_form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.assistant_text {
+  font-family: 'Assistant';
+}
+
+.login_field_wrapper {
+  width: 400px;
+
+  border: 2px;
+  border-style: solid;
+  border-color: #333333;
+  border-radius: 30px;
+
+  margin-bottom: 10px;
+}
+
+.login_field {
+  width: 375px;
+  max-width: 375px;
+
+  border: 10px;
+  border-style: solid;
+  border-color: #FFFFFF;
+  border-radius: 30px;
+
+  font-family: 'Assistant';
+}
+
+#login_button {
+  font-family: 'Assistant';
+}
