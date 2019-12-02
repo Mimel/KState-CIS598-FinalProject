@@ -67,6 +67,22 @@ class CreateController extends AppController {
         'controller' => 'Login', 'action' => 'index'
       ]);
     }
+
+    $tagsTable = TableRegistry::getTableLocator()->get('Tags');
+    $allTags = $tagsTable->find()
+      ->select(['name', 'genre'])
+      ->toList();
+
+    $tagDictionary = [];
+    foreach($allTags as $tag) {
+      if(!isset($tagDictionary[$tag->genre])) {
+        $tagDictionary[$tag->genre] = [$tag->name];
+      } else {
+        $tagDictionary[$tag->genre][] = $tag->name;
+      }
+    }
+
+    $this->set('tags', $tagDictionary);
   }
 }
 ?>

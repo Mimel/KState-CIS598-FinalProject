@@ -25,7 +25,7 @@ endif;
       <title>
           Create a Recipe | Gastrohub
       </title>
-
+      <?= $this->Html->css('zero') ?>
       <?= $this->Html->css('base') ?>
       <?= $this->Html->css('header') ?>
       <?= $this->Html->css('create_recipe') ?>
@@ -54,7 +54,20 @@ endif;
           <?= $this->Form->text('Step 1', ['id' => 'step_1', 'placeholder' => 'Recipe Step']) ?>
         </div>
         <?= $this->Form->button('Add Another Step', ['type' => 'button', 'id' => 'addStepButton']) ?>
-        <div>Add Tags</div>
+        <div><u>Add Tags</u></div>
+        <div id='create_recipe_tag_section'>
+          <?php foreach ($tags as $name => $genre): ?>
+            <div class='create_recipe_tag_genre'>
+              <u><center><?= $name ?></center></u>
+              <?php foreach ($genre as $tag): ?>
+                <label for='<?= $tag ?>'>
+                  <?= $this->Form->checkbox($tag) ?>
+                  <?= $tag ?>
+                </label>
+              <?php endforeach; ?>
+            </div>
+          <?php endforeach; ?>
+        </div>
         <?= $this->Form->button('Submit Recipe', ['type' => 'submit']) ?>
       </div>
       <?= $this->Form->end() ?>

@@ -30,6 +30,17 @@
   resize: none;
 }
 
+#create_recipe_tag_section {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+
+.create_recipe_tag_genre {
+  display: flex;
+  flex-direction: column;
+}
+
 .create_recipe_input_wrapper {
   width: 400px;
 
