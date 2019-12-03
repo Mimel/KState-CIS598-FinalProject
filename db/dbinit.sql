@@ -88,6 +88,7 @@ CREATE TABLE tags (
 );
 
 CREATE TABLE recipe_tag_junction (
+  id        INT AUTO_INCREMENT PRIMARY KEY,
   tag_id    INT,
   recipe_id INT,
 

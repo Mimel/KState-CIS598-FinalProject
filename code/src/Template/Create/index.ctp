@@ -60,8 +60,8 @@ endif;
             <div class='create_recipe_tag_genre'>
               <u><center><?= $name ?></center></u>
               <?php foreach ($genre as $tag): ?>
-                <label for='<?= $tag ?>'>
-                  <?= $this->Form->checkbox($tag) ?>
+                <label for='<?= '_' . $tag ?>'>
+                  <?= $this->Form->checkbox('_' . $tag) ?>
                   <?= $tag ?>
                 </label>
               <?php endforeach; ?>

@@ -48,8 +48,37 @@ class CreateController extends AppController {
         $newPost = $postsTable->newEntity($data, [
           'associated' => ['Recipes', 'Recipes.Ingredients', 'Recipes.Steps']
         ]);
+
+        // Create tag entry in junction table.
+        $allTags = [];
+        foreach($postInfo as $key => $value) {
+          if(substr($key, 0, 1) == '_' && $value == 1) {
+            $allTags[] = substr($key, 1);
+          }
+        }
+        $allTags = str_replace('_', ' ', $allTags);
+
+        $tagsTable = TableRegistry::getTableLocator()->get('Tags');
+        $tagIdQuery = $tagsTable
+          ->find()
+          ->select(['id'])
+          ->where(['name IN' => $allTags])
+          ->toList();
+
         if($postsTable->save($newPost)) {
           $id = $newPost->id;
+
+          $tagData = [];
+          foreach($tagIdQuery as $t_id) {
+            $tagData[] = ['tag_id' => $t_id->id, 'recipe_id' => $id];
+          }
+
+          $rtjTable = TableRegistry::getTableLocator()->get('RecipeTagJunction');
+          $tagData = $rtjTable->newEntities($tagData);
+          foreach($tagData as $rtjInst) {
+            $rtjTable->save($rtjInst);
+          }
+
         }
       }
 
