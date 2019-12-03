@@ -68,6 +68,10 @@ class PagesController extends AppController
     }
 
     public function aboutus() {
+
+    }
+
+    public function browse() {
       
     }
 }
