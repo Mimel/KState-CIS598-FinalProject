@@ -18,6 +18,7 @@ use Cake\Core\Configure;
 use Cake\Http\Exception\ForbiddenException;
 use Cake\Http\Exception\NotFoundException;
 use Cake\View\Exception\MissingTemplateException;
+use Cake\ORM\TableRegistry;
 
 /**
  * Static content controller
@@ -68,10 +69,19 @@ class PagesController extends AppController
     }
 
     public function aboutus() {
-
+      // This function should be empty.
     }
 
     public function browse() {
-      
+      if($this->request->getQuery('s') !== null || $this->request->getQuery('t') !== null) {
+        $sTerm = ($this->request->getQuery('s'));
+        $postsTable = TableRegistry::getTableLocator()->get('Posts');
+        $recipesTable = TableRegistry::getTableLocator()->get('Recipes');
+        $matchingPosts = $postsTable->find()
+          ->select(['id', 'slug', 'title', 'author', 'description'])
+          ->where(['title LIKE' => '%' . $sTerm . '%'])
+          ->toList();
+        $this->set('found_recipes', $matchingPosts);
+      }
     }
 }

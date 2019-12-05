@@ -34,11 +34,11 @@ endif;
 <html>
   <head>
       <?= $this->Html->charset() ?>
-      <title>About GastroHub</title>
+      <title>Browse Recipes</title>
 
       <?= $this->Html->meta('icon') ?>
       <?= $this->Html->css('zero') ?>
-      <?= $this->Html->css('aboutuspage') ?>
+      <?= $this->Html->css('browsepage') ?>
       <?= $this->Html->css('footer') ?>
       <?= $this->Html->css('header') ?>
       <?= $this->Html->css('register_modal') ?>
@@ -48,8 +48,17 @@ endif;
   <body>
     <?= $regCell ?>
     <?= $this->element('userinfoheader') ?>
-    <footer>
-      Browse Page.
-    </footer>
+    <section id='browse_search_bar'>
+      <center>Search from x recipes!</center>
+      <?= $this->Form->create('Recipe Search Form', ['url' => ['controller' => 'Search', 'action' => 'lookup'], 'id' => 'recipe_search_form']) ?>
+      <?= $this->Form->text('recipequery') ?>
+      <?= $this->Form->button('Search', ['type' => 'submit']) ?>
+      <?= $this->Form->end() ?>
+    </section>
+    <section id='browse_recipe_results'>
+      <?php foreach ($found_recipes as $recipe): ?>
+        <?= $recipe ?>
+      <?php endforeach; ?>
+    </section>
   </body>
 </html>
