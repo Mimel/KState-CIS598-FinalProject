@@ -52,6 +52,19 @@ endif;
       <center>Search from x recipes!</center>
       <?= $this->Form->create('Recipe Search Form', ['url' => ['controller' => 'Search', 'action' => 'lookup'], 'id' => 'recipe_search_form']) ?>
       <?= $this->Form->text('recipequery') ?>
+      <div id='browse_tag_section'>
+        <?php foreach ($tags as $name => $genre): ?>
+          <div class='create_recipe_tag_genre'>
+            <u><center><?= $name ?></center></u>
+            <?php foreach ($genre as $tag): ?>
+              <label for='<?= '_' . $tag ?>'>
+                <?= $this->Form->checkbox('_' . $tag) ?>
+                <?= $tag ?>
+              </label>
+            <?php endforeach; ?>
+          </div>
+        <?php endforeach; ?>
+      </div>
       <?= $this->Form->button('Search', ['type' => 'submit']) ?>
       <?= $this->Form->end() ?>
     </section>

@@ -49,7 +49,7 @@ endif;
     <?= $regCell ?>
     <?= $this->element('userinfoheader') ?>
     <header id='intro_placard'>
-      <img src='/img/gastrohublogo.png'/> <!-- TODO add logo -->
+      <img src='/img/gastrohub_logo.png'/>
       <p>A collaborative, creative recipe site!</p>
     </header>
     <section id='purpose_placard'>
@@ -69,8 +69,14 @@ endif;
           '/',
           ['escape' => false]);
           ?>
-          <li>Browse</li>
-          <li>Create a Recipe</li>
+          <?= $this->Html->link('<li>Browse</li>',
+          '/browse',
+          ['escape' => false]);
+          ?>
+          <?= $this->Html->link('<li>Create a Recipe</li>',
+          '/create',
+          ['escape' => false]);
+          ?>
           <?= $this->Html->link('<li>About Us</li>',
           '/aboutus',
           ['escape' => false]);

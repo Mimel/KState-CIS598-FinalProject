@@ -73,6 +73,8 @@ class PagesController extends AppController
     }
 
     public function browse() {
+
+      // If this is the result of a search...
       if($this->request->getQuery('s') !== null || $this->request->getQuery('t') !== null) {
         $sTerm = ($this->request->getQuery('s'));
         $postsTable = TableRegistry::getTableLocator()->get('Posts');
@@ -81,7 +83,25 @@ class PagesController extends AppController
           ->select(['id', 'slug', 'title', 'author', 'description'])
           ->where(['title LIKE' => '%' . $sTerm . '%'])
           ->toList();
+
         $this->set('found_recipes', $matchingPosts);
       }
+
+      // List all tags.
+      $tagsTable = TableRegistry::getTableLocator()->get('Tags');
+      $allTags = $tagsTable->find()
+        ->select(['name', 'genre'])
+        ->toList();
+
+      $tagDictionary = [];
+      foreach($allTags as $tag) {
+        if(!isset($tagDictionary[$tag->genre])) {
+          $tagDictionary[$tag->genre] = [$tag->name];
+        } else {
+          $tagDictionary[$tag->genre][] = $tag->name;
+        }
+      }
+
+      $this->set('tags', $tagDictionary);
     }
 }
