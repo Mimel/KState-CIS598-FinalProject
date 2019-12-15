@@ -50,7 +50,11 @@ class RecipesController extends AppController {
     if($this->request->is('post')) {
       $commentInfo = $this->request->getData();
       $newComment->commenter = $this->getRequest()->getSession()->read('Auth.username');
-      $newComment->parent_commenter = $parentCommenter->commenter; // Test
+      if($parentCommenter == NULL) {
+        $newComment->parent_commenter = NULL;
+      } else {
+        $newComment->parent_commenter = $parentCommenter->commenter;
+      }
       $newComment->post_id = $post_id;
       $newComment->parent_id = $parent_comment_id; // Test
       $newComment->body = $commentInfo['comment'];

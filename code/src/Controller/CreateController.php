@@ -6,6 +6,7 @@ use Cake\ORM\TableRegistry;
 
 class CreateController extends AppController {
 
+  // TODO: on validate, ensure at least one step, ingredient, title, and description.
   public function addRecipe() {
       //$this->Authorization->skipAuthorization();
       $slug;
@@ -19,8 +20,10 @@ class CreateController extends AppController {
         $currentIngredient = 1;
         $ingredients = [];
         while(array_key_exists('Ingredient_Amount_' . $currentIngredient, $postInfo) and array_key_exists('Ingredient_Name_' . $currentIngredient, $postInfo)) {
-          $ingredients[] = ['amount' => $postInfo['Ingredient_Amount_' . $currentIngredient],
-                                    'name' => $postInfo['Ingredient_Name_' . $currentIngredient]];
+          if($postInfo['Ingredient_Amount_' . $currentIngredient] != '' && $postInfo['Ingredient_Name_' . $currentIngredient] != '') {
+            $ingredients[] = ['amount' => $postInfo['Ingredient_Amount_' . $currentIngredient],
+                                      'name' => $postInfo['Ingredient_Name_' . $currentIngredient]];
+          }
           $currentIngredient += 1;
         }
 
@@ -28,7 +31,9 @@ class CreateController extends AppController {
         $currentStep = 1;
         $steps = [];
         while(array_key_exists('Step_' . $currentStep, $postInfo)) {
-          $steps[] = ['step' => $postInfo['Step_' . $currentStep]];
+          if($postInfo['Step_' . $currentStep] != '') {
+            $steps[] = ['step' => $postInfo['Step_' . $currentStep]];
+          }
           $currentStep += 1;
         }
 
@@ -59,11 +64,15 @@ class CreateController extends AppController {
         $allTags = str_replace('_', ' ', $allTags);
 
         $tagsTable = TableRegistry::getTableLocator()->get('Tags');
-        $tagIdQuery = $tagsTable
-          ->find()
-          ->select(['id'])
-          ->where(['name IN' => $allTags])
-          ->toList();
+
+        $tagIdQuery = [];
+        if(sizeof($allTags) > 0) {
+          $tagIdQuery = $tagsTable
+            ->find()
+            ->select(['id'])
+            ->where(['name IN' => $allTags])
+            ->toList();
+        }
 
         if($postsTable->save($newPost)) {
           $id = $newPost->id;

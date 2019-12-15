@@ -69,9 +69,11 @@ endif;
       <?= $this->Form->end() ?>
     </section>
     <section id='browse_recipe_results'>
-      <?php foreach ($found_recipes as $recipe): ?>
-        <?= $recipe ?>
-      <?php endforeach; ?>
+      <?php if(isset($found_recipes)): ?>
+        <?php foreach ($found_recipes as $recipe): ?>
+          <?= $recipe ?>
+        <?php endforeach; ?>
+      <?php endif; ?>
     </section>
   </body>
 </html>

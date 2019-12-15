@@ -38,7 +38,7 @@ $regCell = $this->cell('Register');
       <h1 id='create_recipe_instruction'>Edit a Recipe</h1>
       <?php for ($i = 1; $i < count($recipe_info) + 1; $i++): ?>
         <div class='create_recipe_input_wrapper'>
-          <?= $this->Form->text('Ingredient Amount ' . $i, ['id' => 'ingamt_' . $i, 'value' => $recipe_info[$i - 1]->amount]) ?>
+          <?= $this->Form->text('Ingredient Amount ' . $i, ['id' => 'ingamt_' . $i, 'class' => 'ing_amt_template', 'value' => $recipe_info[$i - 1]->amount]) ?>
         </div>
         <div class='create_recipe_input_wrapper'>
           <?= $this->Form->text('Ingredient Name ' . $i, ['id' => 'ingname_' . $i, 'value' => $recipe_info[$i - 1]->name]) ?>
@@ -48,7 +48,7 @@ $regCell = $this->cell('Register');
 
       <?php for ($i = 1; $i < count($recipe_steps) + 1; $i++): ?>
         <div class='create_recipe_input_wrapper'>
-          <?= $this->Form->text('Step ' . $i, ['id' => 'step_' . $i, 'value' => $recipe_steps[$i - 1]->step]) ?>
+          <?= $this->Form->text('Step ' . $i, ['id' => 'step_' . $i, 'class' => 'ing_step_template', 'value' => $recipe_steps[$i - 1]->step]) ?>
         </div>
       <?php endfor; ?>
       <?= $this->Form->button('Add Another Step', ['type' => 'button', 'id' => 'addStepButton']) ?>

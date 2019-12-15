@@ -44,14 +44,14 @@ endif;
           <?= $this->Form->textarea('description', ['id' => 'create_recipe_title', 'placeholder' => 'Recipe Description: this can be how a recipe was made, how it\'s special, or anything you want!']) ?>
         </div>
         <div class='create_recipe_input_wrapper'>
-          <?= $this->Form->text('Ingredient Amount 1', ['id' => 'ingamt_1', 'placeholder' => 'Ingredient Amount (e.g. "1 cup")']) ?>
+          <?= $this->Form->text('Ingredient Amount 1',  ['id' => 'ingamt_1', 'class' => 'ing_amt_template', 'placeholder' => 'Ingredient Amount (e.g. "1 cup")']) ?>
         </div>
         <div class='create_recipe_input_wrapper'>
           <?= $this->Form->text('Ingredient Name 1', ['id' => 'ingname_1', 'placeholder' => 'Ingredient Name (e.g. "Flour")']) ?>
         </div>
         <?= $this->Form->button('Add Another Ingredient', ['type' => 'button', 'id' => 'addIngredientButton']) ?>
         <div class='create_recipe_input_wrapper'>
-          <?= $this->Form->text('Step 1', ['id' => 'step_1', 'placeholder' => 'Recipe Step']) ?>
+          <?= $this->Form->text('Step 1', ['id' => 'step_1', 'class' => 'ing_step_template', 'placeholder' => 'Recipe Step']) ?>
         </div>
         <?= $this->Form->button('Add Another Step', ['type' => 'button', 'id' => 'addStepButton']) ?>
         <div><u>Add Tags</u></div>
