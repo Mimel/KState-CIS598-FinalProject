@@ -40,7 +40,7 @@ endif;
     <?= $this->element('userinfoheader') ?>
     <div id='l_form_wrapper'>
       <?= $this->Form->create('Login', ['url' => ['controller' => 'Login', 'action' => 'login'], 'id' => 'l_login_form']) ?>
-      <h1 class='assistant_text'>Sign in</h1>
+      <h1 id='login_form_header'>Sign in</h1>
       <div class='login_field_wrapper'>
         <?= $this->Form->text('username', ['placeholder' => 'Username', 'class' => 'login_field']) ?>
       </div>
@@ -49,7 +49,7 @@ endif;
       </div>
       <?= $this->Form->button('Login', ['type' => 'submit', 'id' => 'login_button']) ?>
       <?= $this->Form->end() ?>
-      <h3 class='assistant_text'>Don't have an account? <a class='register_trigger'>Create one for free!<a></h3>
+      <h3 id='login_acc_inquiry'>Don't have an account? <a class='register_trigger'>Create one for free!<a></h3>
     </div>
   </body>
 </html>

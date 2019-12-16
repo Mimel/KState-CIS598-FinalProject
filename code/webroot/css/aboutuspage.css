@@ -1,21 +1,27 @@
 #au_body_placard {
   width: 100%;
-  height: 800px;
+  padding-top: 20px;
+}
 
-  background-image: url('../img/aboutus_cupcake.png');
-  background-color: #E5EEF3;
-  background-position: bottom left;
-  background-repeat: no-repeat;
-
+#au_upper {
   box-sizing: border-box;
   padding-left: 100px;
   padding-right: 100px;
-  padding-top: 50px;
-  padding-bottom: 50px;
+  padding-top: 20px;
+}
+
+#au_lower {
+
+}
+
+#au_cupcake {
+
 }
 
 #au_credits {
-  padding-left: 500px;
+  padding-left: 100px;
+  padding-right: 100px;
+  padding-top: 20px;
 }
 
 .lrg-text {
@@ -27,4 +33,14 @@
 .med-text {
   font-family: 'Assistant';
   font-size: 2em;
+}
+
+@media screen and (max-width: 500px) {
+  .lrg-text {
+    font-size: 3em;
+  }
+
+  .med-text {
+    font-size: 1.5em;
+  }
 }

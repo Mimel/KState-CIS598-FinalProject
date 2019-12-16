@@ -50,18 +50,20 @@ endif;
     <?= $this->element('userinfoheader') ?>
     <section id='au_body_placard'>
       <p class='lrg-text'>About GastroHub</p>
-      <p class='med-text'>
+      <p id='au_upper' class='med-text'>
         GastroHub is not a standard recipe website. GastroHub allows its users to not only create recipes, but to
         embed recipes in comments called "variants" that alter either a main recipe or another variant. These variants
         can be made for all purposes; for ethical, health, diet, expense, cultural, portion, taste or any other reason!
         By adapting recipes for a litany of tongues, we hope that we can spread the joys of cooking and eating to a world
         with diverse values and tastes.
       </p>
-      <br />
-      <p id='au_credits' class='med-text'>
-        GastroHub was created by Matt Imel, for CIS 598 in the Fall 2019 semester. The class may end in December 2019, but
-        I hope to continue to improve GastroHub long after graduation. 💖
-      </p>
+      <div id='au_lower'>
+        <p id='au_credits' class='med-text'>
+          GastroHub was created by Matt Imel, for CIS 598 in the Fall 2019 semester. The class may end in December 2019, but
+          I hope to continue to improve GastroHub long after graduation. 💖
+        </p>
+        <img id='au_cupcake' src='img/aboutus_cupcake.png' />
+      </div>
     </section>
     <footer id='outro_placard'>
       <p class='med_opacity_white'>Create an account with us!</p>

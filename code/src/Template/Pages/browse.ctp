@@ -48,13 +48,13 @@ endif;
   <body>
     <?= $regCell ?>
     <?= $this->element('userinfoheader') ?>
-    <section id='browse_search_bar'>
-      <center>Search from x recipes!</center>
+    <section id='browse_search'>
+      <div id='browse_headliner'>Search from our recipe database!</div>
       <?= $this->Form->create('Recipe Search Form', ['url' => ['controller' => 'Search', 'action' => 'lookup'], 'id' => 'recipe_search_form']) ?>
-      <?= $this->Form->text('recipequery') ?>
+      <?= $this->Form->text('recipequery', ['placeholder' => 'Search by Name']) ?>
       <div id='browse_tag_section'>
         <?php foreach ($tags as $name => $genre): ?>
-          <div class='create_recipe_tag_genre'>
+          <div class='browse_tag_genre'>
             <u><center><?= $name ?></center></u>
             <?php foreach ($genre as $tag): ?>
               <label for='<?= '_' . $tag ?>'>

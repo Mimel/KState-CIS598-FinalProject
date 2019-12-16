@@ -46,23 +46,22 @@ $regCell = $this->cell('Register');
       <br />
       <div id='recipe_prep_block'>
         <div id='recipe_ingredients'>
-          Ingredients
-          <br />
+          <div id='recipe_ingredients_header'>Ingredients</div>
           <?php for ($i = 0; $i < count($recipe_info); $i++): ?>
               <?= h($recipe_info[$i]->ing_amts) . ' ' . h($recipe_info[$i]->ing_names) ?>
               <br />
           <?php endfor; ?>
         </div>
         <br />
-        <div id='steps'>
-          Steps
-          <br />
+        <div id='recipe_steps'>
+          <div id='recipe_steps_header'>Steps</div>
           <?php for ($i = 0; $i < count($recipe_steps); $i++): ?>
               <?= h($recipe_steps[$i]->steps) ?>
               <br />
           <?php endfor; ?>
         </div>
       </div>
+      <hr />
       <a id='post_comment_trigger'><div>Submit a Comment</div></a>
       <div id='post_comment_container'>
         <?= $this->Form->create('Comment Form', ['url' => ['controller' => 'Recipes', 'action' => 'comment', $id], 'id' => 'comment_submit_form']) ?>
