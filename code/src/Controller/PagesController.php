@@ -76,13 +76,35 @@ class PagesController extends AppController
 
       // If this is the result of a search...
       if($this->request->getQuery('s') !== null || $this->request->getQuery('t') !== null) {
-        $sTerm = ($this->request->getQuery('s'));
-        $postsTable = TableRegistry::getTableLocator()->get('Posts');
-        $recipesTable = TableRegistry::getTableLocator()->get('Recipes');
-        $matchingPosts = $postsTable->find()
-          ->select(['id', 'slug', 'title', 'author', 'description'])
-          ->where(['title LIKE' => '%' . $sTerm . '%'])
+        $sTerm = $this->request->getQuery('s');
+        $tTerms = explode(',', $this->request->getQuery('t'));
+
+        $tagsTable = TableRegistry::getTableLocator()->get('Tags');
+        $tTerms = $tagsTable->find()
+          ->select(['id'])
+          ->where(['name IN' => $tTerms])
           ->toList();
+
+        $this->log($tTerms[0]);
+        $tIds = [];
+        for($x = 0; $x < sizeof($tTerms); $x++) {
+          $tIds[] = $tTerms[$x]['id'];
+        }
+
+        $this->log($tIds);
+
+        $postsTable = TableRegistry::getTableLocator()->get('Posts')->find();
+        $recipesTable = TableRegistry::getTableLocator()->get('Recipes');
+        $matchingPosts = $postsTable
+          ->select(['id', 'slug', 'title', 'author', 'description', 'Recipes.id', 'tag_hits' => $postsTable->func()->count('Recipes.id')])
+          ->leftJoinWith('Recipes')
+          ->leftJoinWith('Recipes.RecipeTagJunction')
+          ->where(['title LIKE' => '%' . $sTerm . '%', 'tag_id IN' => $tIds])
+          ->group('Posts.id')
+          ->having(['tag_hits' => sizeof($tIds)])
+          ->toList();
+
+        $this->log($matchingPosts);
 
         $this->set('found_recipes', $matchingPosts);
       }
