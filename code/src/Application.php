@@ -42,6 +42,8 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
      */
     public function bootstrap()
     {
+        $this->addPlugin('Josegonzalez/Upload');
+
         // Call parent to load bootstrap from files.
         parent::bootstrap();
 

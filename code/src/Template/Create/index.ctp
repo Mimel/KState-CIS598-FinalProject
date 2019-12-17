@@ -34,11 +34,14 @@ endif;
     <?= $this->element('userinfoheader') ?>
 
 
-      <?= $this->Form->create('Create Recipe', ['url' => ['controller' => 'Create', 'action' => 'addRecipe'], 'id' => 'create_recipe_form']) ?>
+      <?= $this->Form->create('Create Recipe', ['url' => ['controller' => 'Create', 'action' => 'addRecipe'], 'id' => 'create_recipe_form', 'enctype' => 'multipart/form-data']) ?>
       <div id='create_recipe_form_encapsulator'>
         <h1 id='create_recipe_instruction'>Create a Recipe</h1>
         <div class='create_recipe_input_wrapper'>
           <?= $this->Form->text('title', ['id' => 'create_recipe_title', 'placeholder' => 'Recipe Title']) ?>
+        </div>
+        <div class='create_recipe_input_wrapper'>
+          <?= $this->Form->text('image', ['id' => 'create_recipe_image', 'type' => 'file']) ?>
         </div>
         <div class='create_recipe_input_wrapper'>
           <?= $this->Form->textarea('description', ['id' => 'create_recipe_title', 'placeholder' => 'Recipe Description: this can be how a recipe was made, how it\'s special, or anything you want!']) ?>

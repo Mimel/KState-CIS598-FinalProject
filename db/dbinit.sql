@@ -50,6 +50,7 @@ CREATE TABLE steps (
 CREATE TABLE posts (
   id          INT AUTO_INCREMENT PRIMARY KEY,
   slug        VARCHAR(50),
+  image       VARCHAR(255),
   title       VARCHAR(50) UNIQUE NOT NULL,
   author      VARCHAR(20),
   description VARCHAR(8192),

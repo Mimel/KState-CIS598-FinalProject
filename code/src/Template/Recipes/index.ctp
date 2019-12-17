@@ -38,9 +38,10 @@ $regCell = $this->cell('Register');
       </div>
       <hr />
       <div id='recipe_author' class='center'>
-        Created by <?= h($recipe_info[0]->author) ?>
+        Created by <?= h($recipe_info[0]->image) ?>
       </div>
       <div id='recipe_desc'>
+        <?= $this->Html->image($recipe_info[0]->image) ?>
         <?= h($recipe_info[0]->description) ?>
       </div>
       <br />
