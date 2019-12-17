@@ -14,7 +14,7 @@ class RecipesController extends AppController {
       ->find()
       ->leftJoinWith('Recipes')
       ->leftJoinWith('Recipes.Ingredients')
-      ->select(['title', 'author', 'description', 'ing_amts' => 'Ingredients.amount', 'ing_names' => 'Ingredients.name'])
+      ->select(['title', 'author', 'image', 'description', 'ing_amts' => 'Ingredients.amount', 'ing_names' => 'Ingredients.name'])
       ->where(['Posts.id' => $id])
       ->toList();
     $steps_query = TableRegistry::getTableLocator()

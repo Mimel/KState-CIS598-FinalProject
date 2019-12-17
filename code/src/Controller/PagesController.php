@@ -76,34 +76,46 @@ class PagesController extends AppController
 
       // If this is the result of a search...
       if($this->request->getQuery('s') !== null || $this->request->getQuery('t') !== null) {
-        $sTerm = $this->request->getQuery('s');
-        $tTerms = explode(',', $this->request->getQuery('t'));
-
-        $tagsTable = TableRegistry::getTableLocator()->get('Tags');
-        $tTerms = $tagsTable->find()
-          ->select(['id'])
-          ->where(['name IN' => $tTerms])
-          ->toList();
-
-        $this->log($tTerms[0]);
-        $tIds = [];
-        for($x = 0; $x < sizeof($tTerms); $x++) {
-          $tIds[] = $tTerms[$x]['id'];
+        $sTerm;
+        if($this->request->getQuery('s') === null) {
+          $sTerm = '';
+        } else {
+          $sTerm = $this->request->getQuery('s');
         }
 
-        $this->log($tIds);
-
+        $matchingPosts;
         $postsTable = TableRegistry::getTableLocator()->get('Posts')->find();
         $recipesTable = TableRegistry::getTableLocator()->get('Recipes');
-        $matchingPosts = $postsTable
-          ->select(['id', 'slug', 'title', 'author', 'description', 'Recipes.id', 'tag_hits' => $postsTable->func()->count('Recipes.id')])
-          ->leftJoinWith('Recipes')
-          ->leftJoinWith('Recipes.RecipeTagJunction')
-          ->where(['title LIKE' => '%' . $sTerm . '%', 'tag_id IN' => $tIds])
-          ->group('Posts.id')
-          ->having(['tag_hits' => sizeof($tIds)])
-          ->toList();
+        if($this->request->getQuery('t') === null) {
+          $matchingPosts = $postsTable
+            ->select(['id', 'slug', 'title', 'author', 'description', 'Recipes.id'])
+            ->leftJoinWith('Recipes')
+            ->where(['title LIKE' => '%' . $sTerm . '%'])
+            ->toList();
+        } else {
+          $tTerms = explode(',', $this->request->getQuery('t'));
 
+          $tagsTable = TableRegistry::getTableLocator()->get('Tags');
+          $tTerms = $tagsTable->find()
+            ->select(['id'])
+            ->where(['name IN' => $tTerms])
+            ->toList();
+
+          $tIds = [];
+          for($x = 0; $x < sizeof($tTerms); $x++) {
+            $tIds[] = $tTerms[$x]['id'];
+          }
+
+          $matchingPosts = $postsTable
+            ->select(['id', 'slug', 'title', 'author', 'description', 'Recipes.id', 'tag_hits' => $postsTable->func()->count('Recipes.id')])
+            ->leftJoinWith('Recipes')
+            ->leftJoinWith('Recipes.RecipeTagJunction')
+            ->where(['title LIKE' => '%' . $sTerm . '%', 'tag_id IN' => $tIds])
+            ->group('Posts.id')
+            ->having(['tag_hits' => sizeof($tIds)])
+            ->toList();
+        }
+        
         $this->log($matchingPosts);
 
         $this->set('found_recipes', $matchingPosts);

@@ -1,0 +1,5 @@
+{
+    "require": {
+        "burzum/file-storage": "^1.2"
+    }
+}

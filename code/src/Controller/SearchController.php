@@ -12,7 +12,6 @@ class SearchController extends AppController {
     $queryData = $this->request->getData();
     $queryString = strtolower($queryData['recipequery']);
 
-    // Collect all form tags. TODO work here!
     $allTags = '';
     foreach($queryData as $key => $value) {
       if(substr($key, 0, 1) == '_' && $value == 1) {
@@ -22,7 +21,17 @@ class SearchController extends AppController {
 
     $this->log($allTags);
 
-    return $this->redirect('/browse?s=' . $queryString . '&t=' . substr($allTags, 1));
+    $url = '/browse';
+    if($queryString != '') {
+      $url = $url . '?s=' . $queryString;
+      if($allTags != '') {
+        $url = $url . '&t=' . substr($allTags, 1);
+      }
+    } else if($allTags != '') {
+      $url = $url . '?t=' . substr($allTags, 1);
+    }
+
+    return $this->redirect($url);
   }
 }
 

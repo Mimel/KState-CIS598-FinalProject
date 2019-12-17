@@ -39,9 +39,13 @@ class CreateController extends AppController {
 
         $slug = preg_replace('/[^a-z0-9\-]+/', '', preg_replace('/\s/', '-', strtolower($postInfo['title'])));
 
+        $imageFilePath = WWW_ROOT . 'img\\post_images\\' . $slug . substr($postInfo['image']['name'], strpos($postInfo['image']['name'], '.'));
+        move_uploaded_file($postInfo['image']['tmp_name'], $imageFilePath);
+
         $data = [
           'title'       => $postInfo['title'],
           'slug'        => $slug,
+          'image'       => '/img/post_images/' . $slug . substr($postInfo['image']['name'], strpos($postInfo['image']['name'], '.')),
           'author'      => $this->getRequest()->getSession()->read('Auth.username'),
           'description' => $postInfo['description'],
           'recipe'      => [
