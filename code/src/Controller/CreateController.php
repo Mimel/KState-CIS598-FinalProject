@@ -8,7 +8,13 @@ class CreateController extends AppController {
 
   // TODO: on validate, ensure at least one step, ingredient, title, and description.
   public function addRecipe() {
-      //$this->Authorization->skipAuthorization();
+      // This page shouldn't be accessed if user is not logged in.
+      if(!$this->getRequest()->getSession()->check('Auth')) {
+        return $this->redirect([
+          'controller' => 'Login', 'action' => 'index'
+        ]);
+      }
+
       $slug;
       $id;
 

@@ -84,6 +84,13 @@ class RecipesController extends AppController {
   }
 
   public function postvariant($post_id, $slug, $parent_comment_id) {
+    // This page shouldn't be accessed if user is not logged in.
+    if(!$this->getRequest()->getSession()->check('Auth')) {
+      return $this->redirect([
+        'controller' => 'Login', 'action' => 'index'
+      ]);
+    }
+
     $comment_query = TableRegistry::getTableLocator()->get('Recipes');
 
     // Check if recipe is from a comment.
@@ -123,10 +130,34 @@ class RecipesController extends AppController {
       $this->set('recipe_info', $recipe_query);
       $this->set('recipe_steps', $steps_query);
     }
+
+    // List all tags.
+    $tagsTable = TableRegistry::getTableLocator()->get('Tags');
+    $allTags = $tagsTable->find()
+      ->select(['name', 'genre'])
+      ->toList();
+
+    $tagDictionary = [];
+    foreach($allTags as $tag) {
+      if(!isset($tagDictionary[$tag->genre])) {
+        $tagDictionary[$tag->genre] = [$tag->name];
+      } else {
+        $tagDictionary[$tag->genre][] = $tag->name;
+      }
+    }
+
+    $this->set('tags', $tagDictionary);
   }
 
   // TODO edit to function
   public function addvariant($post_id, $parent_comment_id, $parent_recipe_id) {
+    // This page shouldn't be accessed if user is not logged in.
+    if(!$this->getRequest()->getSession()->check('Auth')) {
+      return $this->redirect([
+        'controller' => 'Login', 'action' => 'index'
+      ]);
+    }
+    
     $slug;
     $id;
 
@@ -173,8 +204,6 @@ class RecipesController extends AppController {
           ->first();
         return $this->redirect(['controller' => 'Recipes', 'action' => 'index', $post_id, $slug->slug]);
       }
-
-
     }
   }
 }

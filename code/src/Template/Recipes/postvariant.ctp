@@ -52,6 +52,20 @@ $regCell = $this->cell('Register');
         </div>
       <?php endfor; ?>
       <?= $this->Form->button('Add Another Step', ['type' => 'button', 'id' => 'addStepButton']) ?>
+      <div><u>Set Tags</u></div>
+      <div id='create_recipe_tag_section'>
+        <?php foreach ($tags as $name => $genre): ?>
+          <div class='create_recipe_tag_genre'>
+            <u><center><?= $name ?></center></u>
+            <?php foreach ($genre as $tag): ?>
+              <label for='<?= '_' . $tag ?>'>
+                <?= $this->Form->checkbox('_' . $tag) ?>
+                <?= $tag ?>
+              </label>
+            <?php endforeach; ?>
+          </div>
+        <?php endforeach; ?>
+      </div>
       <?= $this->Form->button('Submit Variant', ['type' => 'submit']) ?>
     </div>
     <?= $this->Form->end() ?>
