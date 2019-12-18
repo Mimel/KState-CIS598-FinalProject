@@ -49,6 +49,7 @@ class CreateController extends AppController {
           'author'      => $this->getRequest()->getSession()->read('Auth.username'),
           'description' => $postInfo['description'],
           'recipe'      => [
+            'vehicle_type' => 'post',
             'ingredients' => $ingredients,
             'steps'       => $steps
           ]
@@ -80,10 +81,15 @@ class CreateController extends AppController {
 
         if($postsTable->save($newPost)) {
           $id = $newPost->id;
+          $r_id = TableRegistry::getTableLocator()->get('Recipes')
+            ->find()
+            ->select(['id'])
+            ->where(['vehicle_id' => $newPost->id, 'vehicle_type' => 'post'])
+            ->first();
 
           $tagData = [];
           foreach($tagIdQuery as $t_id) {
-            $tagData[] = ['tag_id' => $t_id->id, 'recipe_id' => $id];
+            $tagData[] = ['tag_id' => $t_id->id, 'recipe_id' => $r_id->id];
           }
 
           $rtjTable = TableRegistry::getTableLocator()->get('RecipeTagJunction');

@@ -57,7 +57,6 @@ endif;
       <p class='med_opacity_white'>You can not only submit your own recipes, but create and upload variants of other peoples' recipes, for whatever reason! Whether it be for ethics, diet, health, religion, expense, or simply taste, GastroHub welcomes all variants, to serve a growing world with wonderful and diverse palates.</p>
     </section>
     <section id='popular_placard'>
-      <p>See what's popular!</p>
       <!-- TODO add popular recipes -->
     </section>
     <footer id='outro_placard'>

@@ -88,7 +88,7 @@ class PagesController extends AppController
         $recipesTable = TableRegistry::getTableLocator()->get('Recipes');
         if($this->request->getQuery('t') === null) {
           $matchingPosts = $postsTable
-            ->select(['id', 'slug', 'title', 'author', 'description', 'Recipes.id'])
+            ->select(['id', 'slug', 'image', 'title', 'author', 'description', 'Recipes.id'])
             ->leftJoinWith('Recipes')
             ->where(['title LIKE' => '%' . $sTerm . '%'])
             ->toList();
@@ -107,7 +107,7 @@ class PagesController extends AppController
           }
 
           $matchingPosts = $postsTable
-            ->select(['id', 'slug', 'title', 'author', 'description', 'Recipes.id', 'tag_hits' => $postsTable->func()->count('Recipes.id')])
+            ->select(['id', 'slug', 'image', 'title', 'author', 'description', 'Recipes.id', 'tag_hits' => $postsTable->func()->count('Recipes.id')])
             ->leftJoinWith('Recipes')
             ->leftJoinWith('Recipes.RecipeTagJunction')
             ->where(['title LIKE' => '%' . $sTerm . '%', 'tag_id IN' => $tIds])
@@ -115,7 +115,7 @@ class PagesController extends AppController
             ->having(['tag_hits' => sizeof($tIds)])
             ->toList();
         }
-        
+
         $this->log($matchingPosts);
 
         $this->set('found_recipes', $matchingPosts);

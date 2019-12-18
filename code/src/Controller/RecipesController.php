@@ -14,7 +14,7 @@ class RecipesController extends AppController {
       ->find()
       ->leftJoinWith('Recipes')
       ->leftJoinWith('Recipes.Ingredients')
-      ->select(['title', 'author', 'image', 'description', 'ing_amts' => 'Ingredients.amount', 'ing_names' => 'Ingredients.name'])
+      ->select(['title', 'author', 'image', 'description', 'Recipes.id', 'ing_amts' => 'Ingredients.amount', 'ing_names' => 'Ingredients.name'])
       ->where(['Posts.id' => $id])
       ->toList();
     $steps_query = TableRegistry::getTableLocator()
@@ -30,10 +30,30 @@ class RecipesController extends AppController {
       ->find()
       ->where(['post_id' => $id])
       ->toList();
+
+    $tags_query = TableRegistry::getTableLocator()
+      ->get('RecipeTagJunction')
+      ->find()
+      ->select(['tag_id'])
+      ->where(['recipe_id' => $recipe_query[0]->_matchingData['Recipes']['id']])
+      ->toList();
+
+    $tIds = [];
+    for($x = 0; $x < sizeof($tags_query); $x++) {
+      $tIds[] = $tags_query[$x]['tag_id'];
+    }
+
+    $tags_names = TableRegistry::getTableLocator()
+      ->get('Tags')
+      ->find()
+      ->select(['name'])
+      ->where(['id IN' => $tIds])
+      ->toList();
     $this->set('id', $id);
     $this->set('slug', $slug);
     $this->set('recipe_info', $recipe_query);
     $this->set('recipe_steps', $steps_query);
+    $this->set('recipe_tags', $tags_names);
     $this->set('comments', $comments_query);
   }
 

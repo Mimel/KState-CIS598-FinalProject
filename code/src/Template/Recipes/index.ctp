@@ -38,7 +38,15 @@ $regCell = $this->cell('Register');
       </div>
       <hr />
       <div id='recipe_author' class='center'>
-        Created by <?= h($recipe_info[0]->image) ?>
+        Created by <?= h($recipe_info[0]->author) ?>
+        <br />
+        Tags:
+        <?php for ($i = 0; $i < count($recipe_tags); $i++): ?>
+            <?=h($recipe_tags[$i]->name)?>
+            <?php if($i != count($recipe_tags) - 1): ?>
+                <?= '- ' ?>
+            <?php endif; ?>
+        <?php endfor; ?>
       </div>
       <div id='recipe_desc'>
         <?= $this->Html->image($recipe_info[0]->image) ?>

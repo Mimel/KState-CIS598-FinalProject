@@ -71,7 +71,22 @@ endif;
     <section id='browse_recipe_results'>
       <?php if(isset($found_recipes)): ?>
         <?php foreach ($found_recipes as $recipe): ?>
-          <?= $recipe ?>
+          <a href=<?= 'recipes/' . $recipe->id . '/' . $recipe->slug ?> class='browse_recipe_container'>
+            <?php if(isset($recipe->image) && $recipe->image != ''): ?>
+              <?= $this->Html->image($recipe->image) ?>
+            <?php endif; ?>
+            <div class='browse_recipe_info'>
+              <div class='browse_recipe_title'>
+                <?= $recipe->title ?>
+              </div>
+              <div class='browse_recipe_author'>
+                By <?= $recipe->author ?>
+              </div>
+              <div class='browse_recipe_description'>
+                <?= $recipe->description ?>
+              </div>
+            </div>
+          </div>
         <?php endforeach; ?>
       <?php endif; ?>
     </section>

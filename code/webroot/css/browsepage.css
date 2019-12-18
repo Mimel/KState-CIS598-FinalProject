@@ -35,3 +35,40 @@
     flex-direction: column;
   }
 }
+
+#browse_recipe_results {
+  font-family: 'Assistant';
+
+  margin-left: 50px;
+  margin-right: 50px;
+  margin-top: 50px;
+}
+
+.browse_recipe_container {
+  display: flex;
+
+  background-color: #EEEEEE;
+  color: #000000;
+  text-decoration: none;
+
+  margin-bottom: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.browse_recipe_info {
+  margin-left: 10px;
+}
+
+.browse_recipe_title {
+  font-size: 2em;
+  text-decoration: underline;
+}
+
+.browse_recipe_author {
+  font-size: 1.5em;
+}
+
+.browse_recipe_description {
+  font-size: 1.2em;
+}
