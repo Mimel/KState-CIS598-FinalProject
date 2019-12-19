@@ -124,6 +124,7 @@ class RecipesController extends AppController {
         ->select(['step'])
         ->where(['recipe_id' => $commented_recipe->id])
         ->toList();
+
       $this->set('post_id', $post_id);
       $this->set('parent_commenter_id', $parent_comment_id);
       $this->set('parent_recipe_id', $commented_recipe->id);
@@ -157,7 +158,7 @@ class RecipesController extends AppController {
         'controller' => 'Login', 'action' => 'index'
       ]);
     }
-    
+
     $slug;
     $id;
 

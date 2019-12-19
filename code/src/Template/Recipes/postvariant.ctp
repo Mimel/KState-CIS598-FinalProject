@@ -36,6 +36,9 @@ $regCell = $this->cell('Register');
     <?= $this->Form->create('Create Variant', ['url' => ['controller' => 'Recipes', 'action' => 'addvariant', $post_id, $parent_commenter_id, $parent_recipe_id], 'id' => 'create_recipe_form']) ?>
     <div id='create_recipe_form_encapsulator'>
       <h1 id='create_recipe_instruction'>Edit a Recipe</h1>
+      <div class='create_recipe_input_wrapper'>
+        <?= $this->Form->textarea('comment', ['id' => 'comment', 'placeholder' => 'Comment body']) ?>
+      </div>
       <?php for ($i = 1; $i < count($recipe_info) + 1; $i++): ?>
         <div class='create_recipe_input_wrapper'>
           <?= $this->Form->text('Ingredient Amount ' . $i, ['id' => 'ingamt_' . $i, 'class' => 'ing_amt_template', 'value' => $recipe_info[$i - 1]->amount]) ?>
