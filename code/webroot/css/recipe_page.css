@@ -35,6 +35,10 @@
   display: flex;
 }
 
+#variant_prep_block {
+  display: flex;
+}
+
 #recipe_ingredients {
   flex-basis: 50%;
 
@@ -63,6 +67,10 @@
   text-align: center;
 }
 
+.recipe_variant {
+  display: none;
+}
+
 @media screen and (max-width: 600px) {
   #recipe_title {
     margin-top: 10px;
@@ -78,6 +86,10 @@
   }
 
   #recipe_prep_block {
+    flex-direction: column;
+  }
+
+  #variant_prep_block {
     flex-direction: column;
   }
 

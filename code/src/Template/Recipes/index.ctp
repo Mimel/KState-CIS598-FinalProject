@@ -29,6 +29,7 @@ $regCell = $this->cell('Register');
       <?= $this->Html->css('recipe_page') ?>
       <?php echo $this->Html->script('jquery-3.4.1.min') ?>
       <?php echo $this->Html->script('open_comment') ?>
+      <?php echo $this->Html->script('variant_select') ?>
   </head>
   <body>
     <?= $this->element('userinfoheader') ?>
@@ -53,6 +54,14 @@ $regCell = $this->cell('Register');
         <?= h($recipe_info[0]->description) ?>
       </div>
       <br />
+      <div id='recipe_select'>
+        <a id='recipe_base_recipe' class='recipe_variant_link'>Base Recipe</a>
+        <?php foreach($variants as $key => $variant): ?>
+          <a id=<?= $key ?> class='recipe_variant_link'>
+            <?= $variant['commenter'] . '\'s recipe (' . $key . ')' ?>
+          </a>
+        <?php endforeach; ?>
+      </div>
       <div id='recipe_prep_block'>
         <div id='recipe_ingredients'>
           <div id='recipe_ingredients_header'>Ingredients</div>
@@ -62,6 +71,7 @@ $regCell = $this->cell('Register');
           <?php endfor; ?>
         </div>
         <br />
+
         <div id='recipe_steps'>
           <div id='recipe_steps_header'>Steps</div>
           <?php for ($i = 0; $i < count($recipe_steps); $i++): ?>
@@ -69,6 +79,27 @@ $regCell = $this->cell('Register');
               <br />
           <?php endfor; ?>
         </div>
+      </div>
+      <div id='variant_prep_block'>
+        <?php foreach($variants as $key => $variant): ?>
+          <div id=<?= 'variant_' . $key ?> class='recipe_variant'>
+            <div id='recipe_ingredients'>
+              <div id='recipe_ingredients_header'>Ingredients</div>
+              <?php for ($i = 0; $i < count($variant['ingredients']); $i++): ?>
+                  <?= h($variant['ingredients'][$i]) ?>
+                  <br />
+              <?php endfor; ?>
+            </div>
+            <br />
+            <div id='recipe_steps'>
+              <div id='recipe_steps_header'>Steps</div>
+              <?php for ($i = 0; $i < count($variant['steps']); $i++): ?>
+                  <?= h($variant['steps'][$i]) ?>
+                  <br />
+              <?php endfor; ?>
+            </div>
+          </div>
+        <?php endforeach; ?>
       </div>
       <hr />
       <a id='post_comment_trigger'><div>Submit a Comment</div></a>
