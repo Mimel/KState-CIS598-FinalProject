@@ -10,14 +10,14 @@ class LoginController extends AppController {
     //$this->Authorization->skipAuthorization();
 
     $usersTable = TableRegistry::getTableLocator()->get('Users');
-    $newUser = $usersTable->newEntity();
 
-    // TODO Sanitize.
     if($this->request->is('post')) {
-      $userInfo = $this->request->getData();
-      $newUser->username = $userInfo['username'];
-      $newUser->email = $userInfo['email'];
-      $newUser->password = password_hash($userInfo['password'], PASSWORD_DEFAULT);
+      $newUser = $usersTable->newEntity($this->request->getData());
+      if($newUser->errors()) {
+        $this->log($newUser->errors());
+        return;
+      }
+      $newUser->password = password_hash($this->request->getData()['password'], PASSWORD_DEFAULT);
       $usersTable->save($newUser);
     }
 

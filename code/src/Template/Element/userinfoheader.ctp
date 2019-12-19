@@ -1,5 +1,5 @@
 <header id="auth_header">
-  <?= $this->Html->link('<img src="img/gastrohub_logo_small.png" />',
+  <?= $this->Html->link('<img src="/img/gastrohub_logo_small.png" />',
   '/',
   ['escape' => false]);
   ?>

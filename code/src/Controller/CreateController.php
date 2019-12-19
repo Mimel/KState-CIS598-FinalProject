@@ -62,8 +62,13 @@ class CreateController extends AppController {
         ];
 
         $newPost = $postsTable->newEntity($data, [
-          'associated' => ['Recipes', 'Recipes.Ingredients', 'Recipes.Steps']
+          'associated' => ['Recipes' => ['validation' => 'asdf'], 'Recipes.Ingredients' => ['validate' => 'default'], 'Recipes.Steps']
         ]);
+
+        if($newPost->errors()) {
+          $this->log($newPost->errors());
+          return;
+        }
 
         // Create tag entry in junction table.
         $allTags = [];
