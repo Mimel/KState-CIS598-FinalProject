@@ -43,6 +43,10 @@ class RecipesController extends AppController {
       $allCommentIds[] = $comments_query[$x]['id'];
     }
 
+    if(sizeof($allCommentIds) == 0) {
+      $allCommentIds = [0];
+    }
+
     $variants_query = TableRegistry::getTableLocator()
       ->get('Comments')
       ->find()

@@ -57,7 +57,7 @@ CREATE TABLE posts (
   CONSTRAINT fk_author
     FOREIGN KEY (author)
     REFERENCES users(username)
-);
+) CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 CREATE TABLE comments (
   id                INT AUTO_INCREMENT PRIMARY KEY,

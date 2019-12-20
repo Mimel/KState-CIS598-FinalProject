@@ -23,11 +23,6 @@ use Cake\Http\Exception\NotFoundException;
 $this->layout = false;
 $regCell = $this->cell('Register');
 
-if (!Configure::read('debug')) :
-    throw new NotFoundException(
-        'Please replace src/Template/Pages/home.ctp with your own version or re-enable debug mode.'
-    );
-endif;
 ?>
 
 <!DOCTYPE html>

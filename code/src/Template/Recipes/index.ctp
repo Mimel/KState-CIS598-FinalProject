@@ -23,7 +23,7 @@ $regCell = $this->cell('Register');
           Test
       </title>
 
-      <?= $this->Html->css('base') ?>
+      <?= $this->Html->css('zero') ?>
       <?= $this->Html->css('header') ?>
       <?= $this->Html->css('register_modal') ?>
       <?= $this->Html->css('recipe_page') ?>
@@ -50,24 +50,26 @@ $regCell = $this->cell('Register');
         <?php endfor; ?>
       </div>
       <div id='recipe_desc'>
-        <?= $this->Html->image($recipe_info[0]->image) ?>
+        <?= $this->Html->image($recipe_info[0]->image, ['id' => 'recipe_image']) ?>
         <?= h($recipe_info[0]->description) ?>
       </div>
       <br />
       <div id='recipe_select'>
-        <a id='recipe_base_recipe' class='recipe_variant_link'>Base Recipe</a>
-        <?php foreach($variants as $key => $variant): ?>
-          <a id=<?= $key ?> class='recipe_variant_link'>
-            <?= $variant['commenter'] . '\'s recipe (' . $key . ')' ?>
-          </a>
-        <?php endforeach; ?>
+        <a id='recipe_base_recipe' class='recipe_variant_link recipe_variant_nav_link'>Base Recipe</a>
+        <?php if(sizeof($variants) > 0): ?>
+          <?php foreach($variants as $key => $variant): ?>
+            <a id=<?= $key ?> class='recipe_variant_link recipe_variant_nav_link'>
+              <?= $variant['commenter'] . '\'s recipe (' . $key . ')' ?>
+            </a>
+          <?php endforeach; ?>
+        <?php endif; ?>
       </div>
       <div id='recipe_prep_block'>
         <div id='recipe_ingredients'>
           <div id='recipe_ingredients_header'>Ingredients</div>
           <?php for ($i = 0; $i < count($recipe_info); $i++): ?>
-              <?= h($recipe_info[$i]->ing_amts) . ' ' . h($recipe_info[$i]->ing_names) ?>
-              <br />
+            <?= h($recipe_info[$i]->ing_amts) . ' ' . h($recipe_info[$i]->ing_names) ?>
+            <br />
           <?php endfor; ?>
         </div>
         <br />
@@ -81,25 +83,27 @@ $regCell = $this->cell('Register');
         </div>
       </div>
       <div id='variant_prep_block'>
-        <?php foreach($variants as $key => $variant): ?>
-          <div id=<?= 'variant_' . $key ?> class='recipe_variant'>
-            <div id='recipe_ingredients'>
-              <div id='recipe_ingredients_header'>Ingredients</div>
-              <?php for ($i = 0; $i < count($variant['ingredients']); $i++): ?>
-                  <?= h($variant['ingredients'][$i]) ?>
-                  <br />
-              <?php endfor; ?>
+        <?php if(sizeof($variants) > 0): ?>
+          <?php foreach($variants as $key => $variant): ?>
+            <div id=<?= 'variant_' . $key ?> class='recipe_variant'>
+              <div id='recipe_ingredients'>
+                <div id='recipe_ingredients_header'>Ingredients</div>
+                <?php for ($i = 0; $i < count($variant['ingredients']); $i++): ?>
+                    <?= h($variant['ingredients'][$i]) ?>
+                    <br />
+                <?php endfor; ?>
+              </div>
+              <br />
+              <div id='recipe_steps'>
+                <div id='recipe_steps_header'>Steps</div>
+                <?php for ($i = 0; $i < count($variant['steps']); $i++): ?>
+                    <?= h($variant['steps'][$i]) ?>
+                    <br />
+                <?php endfor; ?>
+              </div>
             </div>
-            <br />
-            <div id='recipe_steps'>
-              <div id='recipe_steps_header'>Steps</div>
-              <?php for ($i = 0; $i < count($variant['steps']); $i++): ?>
-                  <?= h($variant['steps'][$i]) ?>
-                  <br />
-              <?php endfor; ?>
-            </div>
-          </div>
-        <?php endforeach; ?>
+          <?php endforeach; ?>
+        <?php endif; ?>
       </div>
       <hr />
       <a id='post_comment_trigger'><div>Submit a Comment</div></a>
@@ -114,7 +118,7 @@ $regCell = $this->cell('Register');
       <?php foreach ($comments as $comment): ?>
         <div class='comment_block'>
           <div class='comment_header'>
-            <div class='comment_avatar'></div> <!-- TODO Change to img once image uploading is implemented. -->
+            <div class='comment_avatar'></div>
             <?php if($comment->parent_id == NULL): ?>
             <?= $comment->commenter?>
             <?php else: ?>
@@ -126,6 +130,12 @@ $regCell = $this->cell('Register');
             <div class='comment_bodyfooter_container'>
               <div class='comment_body'>
                 <?= $comment->body ?>
+                <?php if(sizeof($variants) > 0 && in_array($comment->id, array_keys($variants))): ?>
+                  <br />
+                  <a class='recipe_variant_link' id=<?=$comment->id?>>
+                    View variant
+                  </a>
+                <?php endif; ?>
               </div>
               <div class='comment_footer'>
                 <?php

@@ -23,7 +23,7 @@ $regCell = $this->cell('Register');
           Test
       </title>
 
-      <?= $this->Html->css('base') ?>
+      <?= $this->Html->css('zero') ?>
       <?= $this->Html->css('header') ?>
       <?= $this->Html->css('register_modal') ?>
       <?= $this->Html->css('create_recipe') ?>

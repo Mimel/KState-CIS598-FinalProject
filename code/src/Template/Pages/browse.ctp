@@ -22,12 +22,6 @@ use Cake\Http\Exception\NotFoundException;
 
 $this->layout = false;
 $regCell = $this->cell('Register');
-
-if (!Configure::read('debug')) :
-    throw new NotFoundException(
-        'Please replace src/Template/Pages/home.ctp with your own version or re-enable debug mode.'
-    );
-endif;
 ?>
 
 <!DOCTYPE html>
@@ -73,7 +67,7 @@ endif;
         <?php foreach ($found_recipes as $recipe): ?>
           <a href=<?= 'recipes/' . $recipe->id . '/' . $recipe->slug ?> class='browse_recipe_container'>
             <?php if(isset($recipe->image) && $recipe->image != ''): ?>
-              <?= $this->Html->image($recipe->image) ?>
+              <?= $this->Html->image($recipe->image, ['class' => 'browse_recipe_image']) ?>
             <?php endif; ?>
             <div class='browse_recipe_info'>
               <div class='browse_recipe_title'>
