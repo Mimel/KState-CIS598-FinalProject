@@ -6,12 +6,15 @@ use Cake\Event\Event;
 use Cake\ORM\TableRegistry;
 
 class LoginController extends AppController {
+
+  // Registers a new user based on the register modal form data.
   public function register() {
     //$this->Authorization->skipAuthorization();
 
     $usersTable = TableRegistry::getTableLocator()->get('Users');
 
     if($this->request->is('post')) {
+      // Registers a new user.
       $newUser = $usersTable->newEntity($this->request->getData());
       if($newUser->errors()) {
         $this->log($newUser->errors());
@@ -24,23 +27,21 @@ class LoginController extends AppController {
     return $this->redirect($this->referer());
   }
 
+  // Logs a user in.
   public function login() {
-    //$this->Authorization->skipAuthorization();
-
     // TODO Sanitize.
     $result = $this->Authentication->getResult();
     return $this->redirect($this->referer());
   }
 
+  // Logs the user out.
   public function logout() {
-    //$this->Authorization->skipAuthorization();
-
     return $this->redirect($this->Authentication->logout());
   }
 
-
+  // Loads the /login page.
   public function index() {
-    //$this->Authorization->skipAuthorization();
+    // This function should do nothing/
   }
 }
 

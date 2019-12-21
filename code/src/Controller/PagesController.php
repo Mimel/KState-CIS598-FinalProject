@@ -68,10 +68,12 @@ class PagesController extends AppController
         }
     }
 
+    // Loads the /aboutus page.
     public function aboutus() {
       // This function should be empty.
     }
 
+    // Loads the /browse page.
     public function browse() {
 
       // If this is the result of a search...
@@ -86,6 +88,8 @@ class PagesController extends AppController
         $matchingPosts;
         $postsTable = TableRegistry::getTableLocator()->get('Posts')->find();
         $recipesTable = TableRegistry::getTableLocator()->get('Recipes');
+
+        // If there are no tags present in the search...
         if($this->request->getQuery('t') === null) {
           $matchingPosts = $postsTable
             ->select(['id', 'slug', 'image', 'title', 'author', 'description', 'Recipes.id'])

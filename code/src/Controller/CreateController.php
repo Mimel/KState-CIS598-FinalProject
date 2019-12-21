@@ -7,7 +7,9 @@ use Cake\ORM\TableRegistry;
 class CreateController extends AppController {
 
   // TODO: on validate, ensure at least one step, ingredient, title, and description.
+  // Adds a recipe (created from the /create form) to the database.
   public function addRecipe() {
+
       // This page shouldn't be accessed if user is not logged in.
       if(!$this->getRequest()->getSession()->check('Auth')) {
         return $this->redirect([
@@ -43,11 +45,14 @@ class CreateController extends AppController {
           $currentStep += 1;
         }
 
+        // Constructs a valid slug.
         $slug = preg_replace('/[^a-z0-9\-]+/', '', preg_replace('/\s/', '-', strtolower($postInfo['title'])));
 
+        // Places uploaded image inside directory.
         $imageFilePath = WWW_ROOT . 'img\\post_images\\' . $slug . substr($postInfo['image']['name'], strpos($postInfo['image']['name'], '.'));
         move_uploaded_file($postInfo['image']['tmp_name'], $imageFilePath);
 
+        // Create recipe structure.
         $data = [
           'title'       => $postInfo['title'],
           'slug'        => $slug,
@@ -60,11 +65,9 @@ class CreateController extends AppController {
             'steps'       => $steps
           ]
         ];
-
         $newPost = $postsTable->newEntity($data, [
           'associated' => ['Recipes' => ['validation' => 'asdf'], 'Recipes.Ingredients' => ['validate' => 'default'], 'Recipes.Steps']
         ]);
-
         if($newPost->errors()) {
           $this->log($newPost->errors());
           return;
@@ -90,6 +93,7 @@ class CreateController extends AppController {
             ->toList();
         }
 
+        // If the recipe and associated components are successfully saved..
         if($postsTable->save($newPost)) {
           $id = $newPost->id;
           $r_id = TableRegistry::getTableLocator()->get('Recipes')
@@ -115,10 +119,8 @@ class CreateController extends AppController {
       return $this->redirect(['controller' => 'Recipes', 'action' => 'index', $id, $slug]);
   }
 
-
+  // Opens the /create page.
   public function index() {
-    // Authorization is done here. (Does user exist?)
-    //$this->Authorization->skipAuthorization();
 
     // This page shouldn't be accessed if user is not logged in.
     if(!$this->getRequest()->getSession()->check('Auth')) {
@@ -127,6 +129,7 @@ class CreateController extends AppController {
       ]);
     }
 
+    // Loads all tags from database dynamically.
     $tagsTable = TableRegistry::getTableLocator()->get('Tags');
     $allTags = $tagsTable->find()
       ->select(['name', 'genre'])

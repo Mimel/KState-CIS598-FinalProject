@@ -7,8 +7,11 @@ use Cake\ORM\TableRegistry;
 
 class RecipesController extends AppController {
 
+  // Loads the /recipes page.
   public function index($id, $slug) {
     //TODO sanitize slug parameter.
+
+    // Gets the recipe base data and ingredients.
     $recipe_query = TableRegistry::getTableLocator()
       ->get('Posts')
       ->find()
@@ -17,6 +20,7 @@ class RecipesController extends AppController {
       ->select(['title', 'author', 'image', 'description', 'Recipes.id', 'ing_amts' => 'Ingredients.amount', 'ing_names' => 'Ingredients.name'])
       ->where(['Posts.id' => $id])
       ->toList();
+    // Gets the recipe steps.
     $steps_query = TableRegistry::getTableLocator()
       ->get('Posts')
       ->find()
@@ -25,11 +29,13 @@ class RecipesController extends AppController {
       ->select(['steps' => 'Steps.step'])
       ->where(['Posts.id' => $id])
       ->toList();
+    // Gets the recipe comments.
     $comments_query = TableRegistry::getTableLocator()
       ->get('Comments')
       ->find()
       ->where(['post_id' => $id])
       ->toList();
+    // Gets the recipe tags.
     $tags_query = TableRegistry::getTableLocator()
       ->get('RecipeTagJunction')
       ->find()
@@ -77,13 +83,12 @@ class RecipesController extends AppController {
       }
     }
 
-    $this->log($variantsTable);
-
     $tIds = [];
     for($x = 0; $x < sizeof($tags_query); $x++) {
       $tIds[] = $tags_query[$x]['tag_id'];
     }
 
+    // Set view variables.
     $tags_names = TableRegistry::getTableLocator()
       ->get('Tags')
       ->find()
@@ -99,8 +104,11 @@ class RecipesController extends AppController {
     $this->set('comments', $comments_query);
   }
 
+  // Posts a comment to the table.
   public function comment($post_id, $parent_comment_id = NULL) {
     $commentsTable = TableRegistry::getTableLocator()->get('Comments');
+
+    // Gets parent commenter.
     $parentCommenter = TableRegistry::getTableLocator()
       ->get('Comments')
       ->find()
@@ -110,6 +118,7 @@ class RecipesController extends AppController {
 
     $newComment = $commentsTable->newEntity();
     if($this->request->is('post')) {
+      // Assembles and adds comment to database.
       $commentInfo = $this->request->getData();
       $newComment->commenter = $this->getRequest()->getSession()->read('Auth.username');
       if($parentCommenter == NULL) {
@@ -125,6 +134,7 @@ class RecipesController extends AppController {
     return $this->redirect($this->referer());
   }
 
+  // Loads the postvariant page.
   public function postvariant($post_id, $slug, $parent_comment_id) {
     // This page shouldn't be accessed if user is not logged in.
     if(!$this->getRequest()->getSession()->check('Auth')) {
@@ -143,6 +153,7 @@ class RecipesController extends AppController {
       ->where(['vehicle_id' => $parent_comment_id, 'vehicle_type' => 'comment'])
       ->first();
 
+    // If this recipe is not from a comment, retrieve the post recipe.
     if(!$commented_recipe) {
       $commented_recipe = TableRegistry::getTableLocator()
         ->get('Recipes')
@@ -152,6 +163,7 @@ class RecipesController extends AppController {
         ->first();
     }
 
+    // IF there actually is a recipe to alter...
     if($commented_recipe) {
       $recipe_query = TableRegistry::getTableLocator()
         ->get('Ingredients')
@@ -192,7 +204,7 @@ class RecipesController extends AppController {
     $this->set('tags', $tagDictionary);
   }
 
-  // TODO edit to function
+  //Adds a variant to the database.
   public function addvariant($post_id, $parent_comment_id, $parent_recipe_id) {
     // This page shouldn't be accessed if user is not logged in.
     if(!$this->getRequest()->getSession()->check('Auth')) {
@@ -210,7 +222,6 @@ class RecipesController extends AppController {
       $recipeTable = TableRegistry::getTableLocator()->get('Recipes');
       $recipeInfo = $this->request->getData();
 
-      // RECONSTRUCT
       $parentCommenter = TableRegistry::getTableLocator()
         ->get('Comments')
         ->find()
@@ -266,7 +277,6 @@ class RecipesController extends AppController {
           return $this->redirect(['controller' => 'Recipes', 'action' => 'index', $post_id, $slug->slug]);
         }
       }
-      // RECONSTRUCT END
     }
   }
 }
