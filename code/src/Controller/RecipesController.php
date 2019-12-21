@@ -59,7 +59,8 @@ class RecipesController extends AppController {
       ->leftJoinWith('Recipes')
       ->leftJoinWith('Recipes.Ingredients')
       ->leftJoinWith('Recipes.Steps')
-      ->select(['id', 'commenter', 'Recipes.id', 'ing_amts' => 'Ingredients.amount', 'ing_names' => 'Ingredients.name', 'steps' => 'Steps.step'])
+      ->leftJoinWith('Recipes.RecipeTagJunction')
+      ->select(['id', 'commenter', 'Recipes.id', 'ing_amts' => 'Ingredients.amount', 'ing_names' => 'Ingredients.name', 'steps' => 'Steps.step', 'tags' => 'RecipeTagJunction.tag_id'])
       ->where(['Recipes.vehicle_type' => 'comment', 'Recipes.vehicle_id IN' => $allCommentIds])
       ->toList();
 
@@ -70,7 +71,8 @@ class RecipesController extends AppController {
         $variantsTable[$v_entry->id] = [
           'commenter' => $v_entry->commenter,
           'ingredients' => [$v_entry->ing_amts . ' ' . $v_entry->ing_names],
-          'steps' => [$v_entry->steps]
+          'steps' => [$v_entry->steps],
+          'tags' => [$v_entry->tags]
         ];
       }
 
@@ -81,6 +83,20 @@ class RecipesController extends AppController {
       if(!in_array($v_entry->steps, $variantsTable[$v_entry->id]['steps'])) {
         $variantsTable[$v_entry->id]['steps'][] = $v_entry->steps;
       }
+
+      if(!in_array($v_entry->tags, $variantsTable[$v_entry->id]['tags'])) {
+        $variantsTable[$v_entry->id]['tags'][] = $v_entry->tags;
+      }
+    }
+
+    foreach($variantsTable as $key => $v_entry) {
+      $this->log($key);
+      $variantsTable[$key]['tags'] = TableRegistry::getTableLocator()
+        ->get('Tags')
+        ->find()
+        ->select(['name'])
+        ->where(['id IN' => $v_entry['tags']])
+        ->toList();
     }
 
     $tIds = [];
@@ -254,12 +270,32 @@ class RecipesController extends AppController {
           $currentStep += 1;
         }
 
+        // Create tag entry in junction table.
+        $allTags = [];
+        foreach($recipeInfo as $key => $value) {
+          if(substr($key, 0, 1) == '_' && $value == 1) {
+            $allTags[] = substr($key, 1);
+          }
+        }
+        $allTags = str_replace('_', ' ', $allTags);
+
+        $tagsTable = TableRegistry::getTableLocator()->get('Tags');
+
+        $tagIdQuery = [];
+        if(sizeof($allTags) > 0) {
+          $tagIdQuery = $tagsTable
+            ->find()
+            ->select(['id'])
+            ->where(['name IN' => $allTags])
+            ->toList();
+        }
+
         $data = [
           'vehicle_id' => $newComment->id,
           'vehicle_type' => 'comment',
           'parent' => $parent_recipe_id,
           'ingredients' => $ingredients,
-          'steps'       => $steps
+          'steps'       => $steps,
         ];
 
         $newRecipe = $recipeTable->newEntity($data, [
@@ -274,6 +310,17 @@ class RecipesController extends AppController {
             ->select(['slug'])
             ->where(['id' => $post_id])
             ->first();
+
+          $tagData = [];
+          foreach($tagIdQuery as $tInst) {
+            $tagData[] = ['tag_id' => $tInst->id, 'recipe_id' => $id];
+          }
+
+          $rtjTable = TableRegistry::getTableLocator()->get('RecipeTagJunction');
+          $tagData = $rtjTable->newEntities($tagData);
+          foreach($tagData as $rtjInst) {
+            $rtjTable->save($rtjInst);
+          }
           return $this->redirect(['controller' => 'Recipes', 'action' => 'index', $post_id, $slug->slug]);
         }
       }

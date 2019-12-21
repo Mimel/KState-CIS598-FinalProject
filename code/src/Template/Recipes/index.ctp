@@ -86,8 +86,13 @@ $regCell = $this->cell('Register');
         <?php if(sizeof($variants) > 0): ?>
           <?php foreach($variants as $key => $variant): ?>
             <div id=<?= 'variant_' . $key ?> class='recipe_variant'>
+              Tags:
+              <?php foreach($variant['tags'] as $tag): ?>
+                  <?=h($tag->name)?>
+              <?php endforeach; ?>
               <div id='recipe_ingredients'>
                 <div id='recipe_ingredients_header'>Ingredients</div>
+
                 <?php for ($i = 0; $i < count($variant['ingredients']); $i++): ?>
                     <?= h($variant['ingredients'][$i]) ?>
                     <br />
